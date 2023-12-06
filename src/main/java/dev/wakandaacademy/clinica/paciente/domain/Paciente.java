@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -43,6 +44,15 @@ public class Paciente {
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
+	public Paciente(PacienteNovoRequest pacienteRequest) {
+		this.nome = pacienteRequest.getNome();
+		this.email = pacienteRequest.getEmail();
+		this.telefone = pacienteRequest.getTelefone();
+		this.sexo = setSexo(pacienteRequest.getSexo());
+		this.dataNascimento = pacienteRequest.getDataNascimento();
+		this.momentoDoDacastro = LocalDateTime.now();
+	}
+	
 	public String setSexo(Sexo sexo) {
 		if (sexo != null) {
 			this.sexo = sexo.getSexo();
@@ -50,14 +60,4 @@ public class Paciente {
 		return this.sexo;
 	}
 
-	public Paciente(String nome, String email, String telefone, String sexo, String dataNascimento,
-			LocalDateTime momentoDoDacastro, LocalDateTime dataHoraDaultimaAlteracao) {
-		this.nome = nome;
-		this.email = email;
-		this.telefone = telefone;
-		this.sexo = sexo;
-		this.dataNascimento = dataNascimento;
-		this.momentoDoDacastro = momentoDoDacastro;
-		this.dataHoraDaultimaAlteracao = dataHoraDaultimaAlteracao;
-	}
 }
