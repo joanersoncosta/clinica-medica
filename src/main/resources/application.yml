@@ -2,3 +2,9 @@ server:
   servlet:
     context-path: /clinica-medica/api
 
+spring:    
+  data:
+    mongodb:
+      authentication-database: admin
+      uri: ${MONGO_DB_URI:mongodb+srv://<clinicaMedicaDB>:<dG5zVGj8dShQnMgB>@wakandadev.cjsar7m.mongodb.net/?retryWrites=true&w=majority}
+      auto-index-creation: true
