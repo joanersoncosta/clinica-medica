@@ -11,11 +11,19 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class PacienteRestController implements PacienteAPI {
 	private final PacienteService pacienteService;
+
 	@Override
 	public PacienteIdResponse postNovoPaciente(PacienteNovoRequest pacienteRequest) {
 		log.info("[inicia] PacienteRestController - postNovoPaciente");
 		PacienteIdResponse pacienteId = pacienteService.criaNovoPaciente(pacienteRequest);
 		log.info("[finaliza] PacienteRestController - postNovoPaciente");
 		return pacienteId;
+	}
+
+	@Override
+	public PacienteCriadoResponse buscaPacientePorId(String idPaciente) {
+		log.info("[inicia] PacienteRestController - postNovoPaciente");
+		log.info("[finaliza] PacienteRestController - postNovoPaciente");
+		return null;
 	}
 }
