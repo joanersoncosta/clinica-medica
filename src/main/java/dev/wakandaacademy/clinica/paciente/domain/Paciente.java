@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,4 +40,11 @@ public class Paciente {
 	
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
+	
+	public String setSexo(Sexo sexo) {
+		if (sexo != null) {
+			this.sexo = sexo.getSexo();
+		}
+		return this.sexo;
+	}
 }
