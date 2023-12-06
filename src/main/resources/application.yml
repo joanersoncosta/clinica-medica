@@ -8,4 +8,3 @@ spring:
       authentication-database: admin
       uri: ${MONGO_DB_URI:mongodb+srv://clinicaMedicaDB:Tny8gZLTY0HB13B4@wakandadev.cjsar7m.mongodb.net/?retryWrites=true&w=majority
       auto-index-creation: true
-     

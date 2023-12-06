@@ -1,7 +1,10 @@
 package dev.wakandaacademy.clinica.paciente.infra;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.paciente.application.respository.PacienteRepository;
 import dev.wakandaacademy.clinica.paciente.domain.Paciente;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +18,14 @@ public class PacienteInfraRepository implements PacienteRepository {
 
 	@Override
 	public Paciente salvaPaciente(Paciente paciente) {
+		try {
+
 			log.info("[inicia] PacienteInfraRepository - salvaPaciente");
 			pacienteSpringDBMongoRepository.save(paciente);
 			log.info("[finaliza] PacienteInfraRepository - salvaPaciente");
+		} catch (DataIntegrityViolationException ex) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já cadastrado.");
+		}
 		return paciente;
 	}
 }
