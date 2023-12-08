@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
+import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,16 +44,22 @@ public class Medico {
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
-	public Medico(@NotBlank String nome, @Email @NotNull String email, @NotBlank String telefone, @NotNull String sexo,
-			@NotNull String dataNascimento, LocalDateTime momentoDoDacastro, LocalDateTime dataHoraDaultimaAlteracao) {
+	public Medico(MedicoNovoRequest medicoNovoRequest) {
 		this.idUsuario = UUID.randomUUID();
-		this.nome = nome;
-		this.email = email;
-		this.telefone = telefone;
-		this.sexo = sexo;
-		this.dataNascimento = dataNascimento;
-		this.momentoDoDacastro = momentoDoDacastro;
-		this.dataHoraDaultimaAlteracao = dataHoraDaultimaAlteracao;
+		this.nome = medicoNovoRequest.getNome();
+		this.email = medicoNovoRequest.getEmail();
+		this.crm = medicoNovoRequest.getCrm();
+		this.telefone = medicoNovoRequest.getTelefone();
+		this.sexo = setSexo(medicoNovoRequest.getSexo());
+		this.dataNascimento = medicoNovoRequest.getDataNascimento();
+		this.momentoDoDacastro = LocalDateTime.now();
+	}
+	
+	public String setSexo(Sexo sexo) {
+		if (sexo != null) {
+			this.sexo = sexo.getSexo();
+		}
+		return this.sexo;
 	}
 
 }
