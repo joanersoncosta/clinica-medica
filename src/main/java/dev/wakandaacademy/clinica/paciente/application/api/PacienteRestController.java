@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.paciente.application.api;
 
+import java.util.UUID;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.paciente.application.service.PacienteService;
@@ -21,9 +23,10 @@ public class PacienteRestController implements PacienteAPI {
 	}
 
 	@Override
-	public PacienteCriadoResponse buscaPacientePorId(String idPaciente) {
+	public PacienteCriadoResponse buscaPacientePorId(UUID idPaciente) {
 		log.info("[inicia] PacienteRestController - postNovoPaciente");
+		PacienteCriadoResponse pacienteResponse = pacienteService.buscaPacientePorId(idPaciente);
 		log.info("[finaliza] PacienteRestController - postNovoPaciente");
-		return null;
+		return pacienteResponse;
 	}
 }

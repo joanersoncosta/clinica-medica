@@ -1,12 +1,11 @@
 package dev.wakandaacademy.clinica.paciente.domain;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
@@ -26,8 +25,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "Paciente")
 public class Paciente {
 	@Id
-	@MongoId(targetType = FieldType.STRING)
-	private String idPaciente;
+	private UUID idPaciente;
 	@NotBlank
 	private String nome;
 	@Email
@@ -45,6 +43,7 @@ public class Paciente {
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
 	public Paciente(PacienteNovoRequest pacienteRequest) {
+		this.idPaciente = UUID.randomUUID();
 		this.nome = pacienteRequest.getNome();
 		this.email = pacienteRequest.getEmail();
 		this.telefone = pacienteRequest.getTelefone();

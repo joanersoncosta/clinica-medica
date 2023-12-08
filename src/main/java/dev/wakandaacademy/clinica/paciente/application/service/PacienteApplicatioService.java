@@ -1,7 +1,10 @@
 package dev.wakandaacademy.clinica.paciente.application.service;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.paciente.application.api.PacienteCriadoResponse;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteIdResponse;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.application.respository.PacienteRepository;
@@ -21,6 +24,13 @@ public class PacienteApplicatioService implements PacienteService {
 		Paciente paciente = pacienteRepository.salvaPaciente(new Paciente(pacienteRequest));
 		log.info("[finaliza] PacienteApplicatioService - criaNovoPaciente");
 		return PacienteIdResponse.builder().idPaciente(paciente.getIdPaciente()).build();
+	}
+
+	@Override
+	public PacienteCriadoResponse buscaPacientePorId(UUID idPaciente) {
+		log.info("[inicia] PacienteApplicatioService - buscaPacientePorId");
+		log.info("[finaliza] PacienteApplicatioService - buscaPacientePorId");
+		return null;
 	}
 
 }
