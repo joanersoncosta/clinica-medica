@@ -30,6 +30,8 @@ public class Medico {
 	@NotNull
 	@Indexed(unique = true)
 	private String email;
+	@NotNull
+	private int crm;
 	@NotBlank
 	private String telefone;
 	@NotNull
