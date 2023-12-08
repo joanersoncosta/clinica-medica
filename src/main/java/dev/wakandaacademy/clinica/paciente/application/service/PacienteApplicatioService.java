@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.credencial.application.service.CredencialService;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteCriadoResponse;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteIdResponse;
@@ -19,11 +20,13 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class PacienteApplicatioService implements PacienteService {
 	private final PacienteRepository pacienteRepository;
-
+	private final CredencialService credencialService;
+	
 	@Override
 	public PacienteIdResponse criaNovoPaciente(PacienteNovoRequest pacienteRequest) {
 		log.info("[inicia] PacienteApplicatioService - criaNovoPaciente");
 		Paciente paciente = pacienteRepository.salvaPaciente(new Paciente(pacienteRequest));
+		credencialService.salvaCredencial(pacienteRequest);
 		log.info("[finaliza] PacienteApplicatioService - criaNovoPaciente");
 		return PacienteIdResponse.builder().idPaciente(paciente.getIdPaciente()).build();
 	}
