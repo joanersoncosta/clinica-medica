@@ -1,5 +1,8 @@
 package dev.wakandaacademy.clinica.paciente.infra;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -26,6 +29,14 @@ public class PacienteInfraRepository implements PacienteRepository {
 		} catch (DataIntegrityViolationException ex) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já cadastrado.");
 		}
+		return paciente;
+	}
+
+	@Override
+	public Optional<Paciente> buscaPacientePorId(UUID idPaciente) {
+		log.info("[inicia] PacienteInfraRepository - buscaPacientePorId");
+		Optional<Paciente> paciente = pacienteSpringDBMongoRepository.findById(idPaciente);
+		log.info("[finaliza] PacienteInfraRepository - buscaPacientePorId");
 		return paciente;
 	}
 }

@@ -2,8 +2,10 @@ package dev.wakandaacademy.clinica.paciente.application.service;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteCriadoResponse;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteIdResponse;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
@@ -17,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class PacienteApplicatioService implements PacienteService {
 	private final PacienteRepository pacienteRepository;
-	
+
 	@Override
 	public PacienteIdResponse criaNovoPaciente(PacienteNovoRequest pacienteRequest) {
 		log.info("[inicia] PacienteApplicatioService - criaNovoPaciente");
@@ -29,8 +31,11 @@ public class PacienteApplicatioService implements PacienteService {
 	@Override
 	public PacienteCriadoResponse buscaPacientePorId(UUID idPaciente) {
 		log.info("[inicia] PacienteApplicatioService - buscaPacientePorId");
+		PacienteCriadoResponse pacienteResponse = pacienteRepository.buscaPacientePorId(idPaciente)
+				.map(PacienteCriadoResponse::convertePacienteParaResponse)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
 		log.info("[finaliza] PacienteApplicatioService - buscaPacientePorId");
-		return null;
+		return pacienteResponse;
 	}
 
 }
