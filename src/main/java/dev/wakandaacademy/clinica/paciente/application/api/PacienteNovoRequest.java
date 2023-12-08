@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.paciente.application.api;
 
+import dev.wakandaacademy.clinica.credencial.domain.Perfil;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +15,7 @@ public class PacienteNovoRequest {
 	@NotNull
 	@Size(min = 6, max = 10)
 	private String senha;
+	private Perfil perfil = Perfil.PACIENTE;
 	@Email
 	@NotNull
 	private String email;
