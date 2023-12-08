@@ -38,4 +38,9 @@ public class PacienteApplicatioService implements PacienteService {
 		return pacienteResponse;
 	}
 
+	@Override
+	public Paciente buscaPacientePorEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
