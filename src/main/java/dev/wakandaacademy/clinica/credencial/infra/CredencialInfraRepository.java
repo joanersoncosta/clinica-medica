@@ -20,5 +20,13 @@ public class CredencialInfraRepository implements CredencialRepository {
 		log.info("[finaliza] CredencialInfraRepository - salvaCredencial");
 		return credencial;
 	}
+	
+	@Override
+	public Credencial buscaCredencialPorUsuario(String usuario) {
+		log.info("[inicia] CredencialInfraRepository - buscaCredencialPorUsuario");
+		Credencial credencial = credencialSpringMongoRepository.findByUsuario(usuario);
+		log.info("[finaliza] CredencialInfraRepository - buscaCredencialPorUsuario");
+		return credencial;
+	}
 
 }
