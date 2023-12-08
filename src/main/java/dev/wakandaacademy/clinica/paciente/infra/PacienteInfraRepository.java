@@ -39,4 +39,12 @@ public class PacienteInfraRepository implements PacienteRepository {
 		log.info("[finaliza] PacienteInfraRepository - buscaPacientePorId");
 		return paciente;
 	}
+
+	@Override
+	public Optional<Paciente> buscaPacientePorEmail(String email) {
+		log.info("[inicia] PacienteInfraRepository - buscaPacientePorEmail");
+		Optional<Paciente> paciente = pacienteSpringDBMongoRepository.findByEmail(email);
+		log.info("[finaliza] PacienteInfraRepository - buscaPacientePorEmail");
+		return paciente;
+	}
 }

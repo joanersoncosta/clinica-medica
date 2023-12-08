@@ -31,6 +31,7 @@ public class PacienteApplicatioService implements PacienteService {
 	@Override
 	public PacienteCriadoResponse buscaPacientePorId(UUID idPaciente) {
 		log.info("[inicia] PacienteApplicatioService - buscaPacientePorId");
+		log.info("[idPaciente] {}", idPaciente);
 		PacienteCriadoResponse pacienteResponse = pacienteRepository.buscaPacientePorId(idPaciente)
 				.map(PacienteCriadoResponse::convertePacienteParaResponse)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
@@ -40,7 +41,11 @@ public class PacienteApplicatioService implements PacienteService {
 
 	@Override
 	public Paciente buscaPacientePorEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		log.info("[inicia] PacienteApplicatioService - buscaPacientePorEmail");
+		log.info("[emailPaciente] {}", email);
+		Paciente paciente = pacienteRepository.buscaPacientePorEmail(email).orElseThrow(() -> 
+		APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
+		log.info("[finaliza] PacienteApplicatioService - buscaPacientePorEmail");
+		return paciente;
 	}
 }

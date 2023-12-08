@@ -8,4 +8,5 @@ import dev.wakandaacademy.clinica.paciente.domain.Paciente;
 public interface PacienteRepository {
 	Paciente salvaPaciente(Paciente paciente);
 	Optional<Paciente> buscaPacientePorId(UUID idPaciente);
+	Optional<Paciente> buscaPacientePorEmail(String email);
 }
