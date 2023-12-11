@@ -1,10 +1,11 @@
 package dev.wakandaacademy.clinica.credencial.domain;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,8 +16,9 @@ import lombok.NoArgsConstructor;
 public class Credencial {
 	@Id
 	@Getter
+	@Indexed
 	private String usuario;
-	@NotNull
+	@NotBlank
 	@Size(min = 6)
 	@Getter(value = AccessLevel.PRIVATE)
 	private String senha;

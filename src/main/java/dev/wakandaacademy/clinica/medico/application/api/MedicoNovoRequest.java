@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.medico.application.api;
 
+import java.time.LocalDate;
+
 import dev.wakandaacademy.clinica.credencial.domain.Perfil;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
@@ -12,19 +14,19 @@ import lombok.Getter;
 public class MedicoNovoRequest {
 	@NotBlank
 	private String nome;
-	@NotNull
+	@NotBlank
 	@Size(min = 6, max = 10)
 	private String senha;
 	private Perfil perfil = Perfil.MEDICO;
 	@Email
-	@NotNull
+	@NotBlank
 	private String email;
 	@NotNull
-	private int crm;
+	private String crm;
 	@NotBlank
 	private String telefone;
 	@NotNull
 	private Sexo sexo;
 	@NotNull
-	private String dataNascimento;
+	private LocalDate dataNascimento;
 }

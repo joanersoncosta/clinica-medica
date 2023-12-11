@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.medico.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,27 +26,26 @@ import lombok.NoArgsConstructor;
 @Document(collection = "Medico")
 public class Medico {
 	@Id
-	private UUID idUsuario;
+	private UUID idMedico;
 	@NotBlank
 	private String nome;
 	@Email
-	@NotNull
+	@NotBlank
 	@Indexed(unique = true)
 	private String email;
 	@NotNull
-	private int crm;
+	private String crm;
 	@NotBlank
 	private String telefone;
-	@NotNull
 	private String sexo;
 	@NotNull
-	private String dataNascimento;
+	private LocalDate dataNascimento;
 
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
 	public Medico(MedicoNovoRequest medicoNovoRequest) {
-		this.idUsuario = UUID.randomUUID();
+		this.idMedico = UUID.randomUUID();
 		this.nome = medicoNovoRequest.getNome();
 		this.email = medicoNovoRequest.getEmail();
 		this.crm = medicoNovoRequest.getCrm();
