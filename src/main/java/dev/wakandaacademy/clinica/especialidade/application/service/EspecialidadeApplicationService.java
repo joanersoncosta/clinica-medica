@@ -53,6 +53,15 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 		log.info("[finaliza] EspecialidadeApplicationService - buscaEspecialidadePorId");
 		return especialidade;
 	}
+	
+	@Override
+	public Especialidade detalhaEspecialidadePorId(UUID idEspecialidade) {
+		log.info("[inicia] EspecialidadeApplicationService - detalhaEspecialidadePorId");
+		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
+		log.info("[finaliza] EspecialidadeApplicationService - detalhaEspecialidadePorId");
+		return especialidade;
+	}
 
 	@Override
 	public void deletaEspecialidadePorId(UUID idEspecialidade) {
@@ -86,4 +95,5 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 		especialidadeRepository.salvaEspecialidade(especialidade);
 		log.info("[finaliza] EspecialidadeApplicationService - alteraDadosMedico");
 	}
+
 }

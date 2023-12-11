@@ -47,7 +47,7 @@ public class Medico {
 	private String sexo;
 	@NotNull
 	private LocalDate dataNascimento;
-	private Set<MedicoEspecialidades> especialidades = new HashSet<>();
+	private Set<MedicoEspecialidades> especialidades;
 
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
@@ -61,6 +61,7 @@ public class Medico {
 		this.sexo = setSexo(medicoNovoRequest.getSexo());
 		this.dataNascimento = medicoNovoRequest.getDataNascimento();
 		this.momentoDoDacastro = LocalDateTime.now();
+		this.especialidades = new HashSet<>();
 	}
 	
 	public String setSexo(Sexo sexo) {

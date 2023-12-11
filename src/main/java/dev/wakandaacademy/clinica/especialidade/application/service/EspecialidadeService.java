@@ -8,11 +8,13 @@ import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdR
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
+import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 
 public interface EspecialidadeService {
 	EspecialidadeIdResponse criarEspecialidade(EspecialidadeRequest especialidadeRequest);
 	List<EspecialidadeListResponse> listaEspecialidade();
 	EspecialidadeResponse buscaEspecialidadePorId(UUID idEspecialidade);
+	Especialidade detalhaEspecialidadePorId(UUID idEspecialidade);
 	void deletaEspecialidadePorId(UUID idEspecialidade);
 	void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest);
 	void cadastraEspecialidadeMedico(UUID idEspecialidade, String email);

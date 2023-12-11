@@ -32,7 +32,7 @@ public class Especialidade {
 	@Indexed(unique = true)
 	private String titlo;
 	private String descricao;
-	private Set<EspecialidadeMedicos> especialidadeMedicos = new HashSet<>();
+	private Set<EspecialidadeMedicos> especialidadeMedicos;
 
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
@@ -42,6 +42,7 @@ public class Especialidade {
 		this.titlo = especialidadeRequest.getTitlo();
 		this.descricao = especialidadeRequest.getDescricao();
 		this.momentoDoDacastro = LocalDateTime.now();
+		this.especialidadeMedicos = new HashSet<>();
 	}
 
 	public void altera(EspecialidadeAlteracaoRequest especialidadeRequest) {

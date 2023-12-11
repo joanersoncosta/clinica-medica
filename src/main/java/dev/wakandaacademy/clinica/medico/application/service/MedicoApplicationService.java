@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.credencial.application.service.CredencialService;
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeMedicaRequest;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
@@ -100,6 +101,7 @@ public class MedicoApplicationService implements MedicoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
 		Medico medicoEmail = detalhaMedicoPorEmail(emailMedico);
 		medico.pertenceMedico(medicoEmail);
+		medico.cadastraEspecialidade(new MedicaEspecialidadeRequest(medico));
 
 		medicoRepository.salvaMedico(medico);
 		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
