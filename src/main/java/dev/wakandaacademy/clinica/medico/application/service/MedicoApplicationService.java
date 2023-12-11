@@ -1,10 +1,14 @@
 package dev.wakandaacademy.clinica.medico.application.service;
 
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.credencial.application.service.CredencialService;
+import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoIdResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoListResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
@@ -35,6 +39,17 @@ public class MedicoApplicationService implements MedicoService {
 		List<Medico> medicos = medicoRepository.buscaMedicos();
 		log.info("[finaliza] MedicoApplicationService - buscaMedicos");
 		return MedicoListResponse.converte(medicos);
+	}
+
+	@Override
+	public MedicoCriadoResponse buscaMedicoPorId(UUID idMedico) {
+		log.info("[inicia] MedicoApplicationService - buscaMedicoPorId");
+		log.info("[idMedico] {idMedico}", idMedico);
+		MedicoCriadoResponse medicoResponse = medicoRepository.buscaMeditoPorId(idMedico)
+			.map(MedicoCriadoResponse::converteParaResponse)
+			.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		log.info("[finaliza] MedicoApplicationService - buscaMedicoPorId");
+		return medicoResponse;
 	}
 
 }

@@ -1,6 +1,8 @@
 package dev.wakandaacademy.clinica.medico.infra;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,14 @@ public class MedicoInfraRepository implements MedicoRepository {
 			List<Medico> medicos = medicoSpringDataMongoRepository.findAll();
 			log.info("[finaliza] MedicoInfraRepository - buscaMedicos");
 		return medicos;
+	}
+
+	@Override
+	public Optional<Medico> buscaMeditoPorId(UUID idMedico) {
+		log.info("[inicia] MedicoInfraRepository - buscaMedicos");
+		Optional<Medico> medico = medicoSpringDataMongoRepository.findById(idMedico);
+		log.info("[finaliza] MedicoInfraRepository - buscaMedicos");
+		return medico;
 	}
 
 }

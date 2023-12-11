@@ -1,6 +1,7 @@
 package dev.wakandaacademy.clinica.medico.application.api;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +29,13 @@ public class MedicoRestController implements MedicoAPI {
 		List<MedicoListResponse> medicoListResponse = medicoService.buscaMedicos();
 		log.info("[finaliza] MedicoRestController - buscaMedicos");
 		return medicoListResponse;
+	}
+
+	@Override
+	public MedicoCriadoResponse buscaMedicoPorId(UUID idMedico) {
+		log.info("[inicia] MedicoRestController - buscaMedicoPorId");
+		MedicoCriadoResponse medicoResponse = medicoService.buscaMedicoPorId(idMedico);
+		log.info("[finaliza] MedicoRestController - buscaMedicoPorId");
+		return medicoResponse;
 	}
 }
