@@ -1,9 +1,11 @@
 package dev.wakandaacademy.clinica.especialidade.application.api;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,4 +26,7 @@ public interface EspecialidadeAPI {
 	@ResponseStatus(code = HttpStatus.OK)
 	List<EspecialidadeListResponse> listaEspecialidade();
 
+	@GetMapping(value = "/{idEspecialidade}")
+	@ResponseStatus(code = HttpStatus.OK)
+	EspecialidadeResponse buscaEspecialidadePorId(@PathVariable(value = "idEspecialidade") UUID idEspecialidade);
 }

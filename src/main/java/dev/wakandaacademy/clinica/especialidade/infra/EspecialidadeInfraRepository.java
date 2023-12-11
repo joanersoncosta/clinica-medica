@@ -1,6 +1,8 @@
 package dev.wakandaacademy.clinica.especialidade.infra;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,14 @@ public class EspecialidadeInfraRepository implements EspecialidadeRepository {
 		List<Especialidade> especialidades = especialidadeSpringDataMongoRepository.findAll();
 		log.info("[finaliza] EspecialidadeInfraRepository - listaEspecialidade");
 		return especialidades;
+	}
+
+	@Override
+	public Optional<Especialidade> buscaEspecialidadePorId(UUID idEspecialidade) {
+		log.info("[inicia] EspecialidadeInfraRepository - buscaEspecialidadePorId");
+		Optional<Especialidade> especialidade = especialidadeSpringDataMongoRepository.findById(idEspecialidade);
+		log.info("[finaliza] EspecialidadeInfraRepository - buscaEspecialidadePorId");
+		return especialidade;
 	}
 
 }
