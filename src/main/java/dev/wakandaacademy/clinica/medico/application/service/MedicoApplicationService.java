@@ -90,4 +90,19 @@ public class MedicoApplicationService implements MedicoService {
 		medicoRepository.deletaMedicoPorId(medico);
 		log.info("[finaliza] MedicoApplicationService - alteraDadosMedico");
 	}
+
+	@Override
+	public void cadastraEspecialidadeMedico(UUID idMedico, UUID idEspecialidade, String emailMedico) {
+		log.info("[inicia] MedicoApplicationService - cadastraEspecialidadeMedico");
+		log.info("[idMedico] {} [idEspecialidade] {}", idMedico, idEspecialidade);
+		log.info("[emailMedico] {}", idEspecialidade);
+		Medico medico = medicoRepository.buscaMeditoPorId(idMedico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		Medico medicoEmail = detalhaMedicoPorEmail(emailMedico);
+		medico.pertenceMedico(medicoEmail);
+
+		medicoRepository.salvaMedico(medico);
+		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
+		
+	}
 }

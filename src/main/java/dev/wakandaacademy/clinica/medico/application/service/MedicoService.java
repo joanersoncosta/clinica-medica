@@ -17,4 +17,5 @@ public interface MedicoService {
 	void alteraDadosMedico(UUID idMedico, String email, MedicoAlteracaoRequest postagemAlteracaoRequest);
 	Medico detalhaMedicoPorEmail(String email);
 	void deletaMedicoPorId(UUID idMedico, String email);
+	void cadastraEspecialidadeMedico(UUID idMedico, UUID idEspecialidade, String email);
 }
