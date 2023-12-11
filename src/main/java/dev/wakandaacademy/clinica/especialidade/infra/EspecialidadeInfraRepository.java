@@ -48,4 +48,11 @@ public class EspecialidadeInfraRepository implements EspecialidadeRepository {
 		return especialidade;
 	}
 
+	@Override
+	public void deletaEspecialidadePorId(Especialidade especialidade) {
+		log.info("[inicia] EspecialidadeInfraRepository - deletaEspecialidadePorId");
+		especialidadeSpringDataMongoRepository.delete(especialidade);
+		log.info("[finaliza] EspecialidadeInfraRepository - deletaEspecialidadePorId");
+	}
+
 }

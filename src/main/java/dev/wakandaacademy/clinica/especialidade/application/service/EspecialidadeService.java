@@ -12,5 +12,5 @@ public interface EspecialidadeService {
 	EspecialidadeIdResponse criarEspecialidade(EspecialidadeRequest especialidadeRequest);
 	List<EspecialidadeListResponse> listaEspecialidade();
 	EspecialidadeResponse buscaEspecialidadePorId(UUID idEspecialidade);
-
+	void deletaEspecialidadePorId(UUID idEspecialidade);
 }

@@ -10,5 +10,5 @@ public interface EspecialidadeRepository {
 	Especialidade salvaEspecialidade(Especialidade especialidade);
 	List<Especialidade> listaEspecialidade();
 	Optional<Especialidade> buscaEspecialidadePorId(UUID idEspecialidade);
-
+	void deletaEspecialidadePorId(Especialidade especialidade);
 }

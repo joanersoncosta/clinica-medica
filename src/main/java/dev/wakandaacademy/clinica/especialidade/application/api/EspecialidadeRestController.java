@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class EspecialidadeRestController implements EspecialidadeAPI {
 	private final EspecialidadeService especialidadeService;
+
 	@Override
 	public EspecialidadeIdResponse criarEspecialidade(EspecialidadeRequest especialidadeRequest) {
 		log.info("[inicia] EspecialidadeRestController - criarEspecialidade");
@@ -21,6 +22,7 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		log.info("[finaliza] EspecialidadeRestController - criarEspecialidade");
 		return especialidadeIdResponse;
 	}
+
 	@Override
 	public List<EspecialidadeListResponse> listaEspecialidade() {
 		log.info("[inicia] EspecialidadeRestController - listaEspecialidade");
@@ -28,6 +30,7 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		log.info("[finaliza] EspecialidadeRestController - listaEspecialidade");
 		return especialidadeListResponse;
 	}
+
 	@Override
 	public EspecialidadeResponse buscaEspecialidadePorId(UUID idEspecialidade) {
 		log.info("[inicia] EspecialidadeRestController - buscaEspecialidadePorId");
@@ -36,4 +39,10 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		return especialidadeResponse;
 	}
 
+	@Override
+	public void deletaEspecialidadePorId(UUID idEspecialidade) {
+		log.info("[inicia] EspecialidadeRestController - deletaEspecialidadePorId");
+		especialidadeService.deletaEspecialidadePorId(idEspecialidade);
+		log.info("[finaliza] EspecialidadeRestController - deletaEspecialidadePorId");
+	}
 }

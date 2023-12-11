@@ -13,7 +13,6 @@ import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRes
 import dev.wakandaacademy.clinica.especialidade.application.repository.EspecialidadeRepository;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
-import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -48,5 +47,14 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
 		log.info("[finaliza] EspecialidadeApplicationService - buscaEspecialidadePorId");
 		return especialidade;
+	}
+
+	@Override
+	public void deletaEspecialidadePorId(UUID idEspecialidade) {
+		log.info("[inicia] EspecialidadeApplicationService - deletaEspecialidadePorId");
+		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
+		especialidadeRepository.deletaEspecialidadePorId(especialidade);
+		log.info("[finaliza] EspecialidadeApplicationService - deletaEspecialidadePorId");
 	}
 }
