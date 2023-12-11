@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,4 +36,8 @@ public interface MedicoAPI {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void patchAlteraMedico(@PathVariable(value = "idMedico") UUID idMedico, @PathParam(value = "email") String email,
 			@RequestBody @Valid MedicoAlteracaoRequest postagemAlteracaoRequest);
+
+	@DeleteMapping(value = "/{idMedico}")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	void deletaMedicoPorId(@PathVariable(value = "idMedico") UUID idMedico, @PathParam(value = "email") String email);
 }

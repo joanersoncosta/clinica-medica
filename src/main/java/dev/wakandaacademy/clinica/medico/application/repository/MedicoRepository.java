@@ -11,4 +11,5 @@ public interface MedicoRepository {
 	List<Medico> buscaMedicos();
 	Optional<Medico> buscaMeditoPorId(UUID idMedico);
 	Optional<Medico> buscaMeditoPorEmail(String emailMedico);
+	void deletaMedicoPorId(Medico medico);
 }

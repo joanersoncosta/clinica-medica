@@ -56,4 +56,11 @@ public class MedicoInfraRepository implements MedicoRepository {
 		return medico;
 	}
 
+	@Override
+	public void deletaMedicoPorId(Medico medico) {
+		log.info("[inicia] MedicoInfraRepository - deletaMedicoPorId");
+		medicoSpringDataMongoRepository.delete(medico);
+		log.info("[finaliza] MedicoInfraRepository - deletaMedicoPorId");
+	}
+
 }

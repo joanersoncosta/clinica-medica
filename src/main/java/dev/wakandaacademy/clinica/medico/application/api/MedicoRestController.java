@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.medico.application.service.MedicoService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -45,5 +44,12 @@ public class MedicoRestController implements MedicoAPI {
 		log.info("[inicia] MedicoRestController - patchAlteraMedico");
 		medicoService.alteraDadosMedico(idMedico, email, postagemAlteracaoRequest);
 		log.info("[finaliza] MedicoRestController - patchAlteraMedico");
+	}
+
+	@Override
+	public void deletaMedicoPorId(UUID idMedico, String email) {
+		log.info("[inicia] MedicoRestController - deletaMedico");
+		medicoService.deletaMedicoPorId(idMedico, email);
+		log.info("[finaliza] MedicoRestController - deletaMedico");
 	}
 }
