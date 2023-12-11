@@ -7,7 +7,10 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
@@ -60,6 +63,20 @@ public class Medico {
 			this.sexo = sexo.getSexo();
 		}
 		return this.sexo;
+	}
+
+	public void pertenceMedico(Medico medicoEmail) {
+		if (!idMedico.equals(medicoEmail.getIdMedico())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Médico não é dono da requisição solicitada!");
+		}		
+	}
+
+	public void alteraDados(MedicoAlteracaoRequest postagemAlteracaoRequest) {
+		this.nome = postagemAlteracaoRequest.getNome();
+		this.crm = postagemAlteracaoRequest.getCrm();
+		this.telefone = postagemAlteracaoRequest.getTelefone();
+		this.dataNascimento = postagemAlteracaoRequest.getDataNascimento();
+		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
 	}
 
 }

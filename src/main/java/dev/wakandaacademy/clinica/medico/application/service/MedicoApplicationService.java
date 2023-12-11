@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.credencial.application.service.CredencialService;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoIdResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoListResponse;
@@ -46,10 +47,37 @@ public class MedicoApplicationService implements MedicoService {
 		log.info("[inicia] MedicoApplicationService - buscaMedicoPorId");
 		log.info("[idMedico] {idMedico}", idMedico);
 		MedicoCriadoResponse medicoResponse = medicoRepository.buscaMeditoPorId(idMedico)
-			.map(MedicoCriadoResponse::converteParaResponse)
-			.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+				.map(MedicoCriadoResponse::converteParaResponse)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
 		log.info("[finaliza] MedicoApplicationService - buscaMedicoPorId");
 		return medicoResponse;
 	}
+
+	@Override
+	public void alteraDadosMedico(UUID idMedico, String emailMedico, MedicoAlteracaoRequest postagemAlteracaoRequest) {
+		log.info("[inicia] MedicoApplicationService - alteraDadosMedico");
+		log.info("[idMedico] {}", idMedico);
+		log.info("[emailMedico] {}", emailMedico);
+		Medico medico = medicoRepository.buscaMeditoPorId(idMedico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		Medico medicoEmail = detalhaMedicoPorEmail(emailMedico);
+		medico.pertenceMedico(medicoEmail);
+		medico.alteraDados(postagemAlteracaoRequest);
+		medicoRepository.salvaMedico(medico);
+		log.info("[finaliza] MedicoApplicationService - alteraDadosMedico");
+	}
+
+	@Override
+	public Medico detalhaMedicoPorEmail(String emailMedico) {
+		log.info("[inicia] MedicoApplicationService - detalhaMedicoPorEmail");
+		log.info("[emailMedico] {}", emailMedico);
+		Medico medico = medicoRepository.buscaMeditoPorEmail(emailMedico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		
+		log.info("[finaliza] MedicoApplicationService - detalhaMedicoPorEmail");
+		return medico;
+	}
+	
+	
 
 }

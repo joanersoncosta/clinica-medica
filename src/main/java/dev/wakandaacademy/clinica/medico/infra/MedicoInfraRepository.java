@@ -48,4 +48,12 @@ public class MedicoInfraRepository implements MedicoRepository {
 		return medico;
 	}
 
+	@Override
+	public Optional<Medico> buscaMeditoPorEmail(String emailMedico) {
+		log.info("[inicia] MedicoInfraRepository - buscaMeditoPorEmail");
+		Optional<Medico> medico = medicoSpringDataMongoRepository.findByEmail(emailMedico);
+		log.info("[finaliza] MedicoInfraRepository - buscaMeditoPorEmail");
+		return medico;
+	}
+
 }
