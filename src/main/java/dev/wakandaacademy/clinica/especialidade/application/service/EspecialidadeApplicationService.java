@@ -9,14 +9,11 @@ import org.springframework.stereotype.Service;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
-import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeMedicaRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 import dev.wakandaacademy.clinica.especialidade.application.repository.EspecialidadeRepository;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
-import dev.wakandaacademy.clinica.medico.application.service.MedicoService;
-import dev.wakandaacademy.clinica.medico.domain.Medico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -24,7 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class EspecialidadeApplicationService implements EspecialidadeService {
-	private final MedicoService medicoService;
+//	private final MedicoService medicoService;
 	private final EspecialidadeRepository especialidadeRepository;
 
 	@Override
@@ -88,11 +85,11 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 		log.info("[inicia] EspecialidadeApplicationService - alteraDadosMedico");
 		log.info("[idEspecialidade] {} [idMedico] {}", idEspecialidade);
 		log.info("[emailMedico] {}", emailMedico);
-		Medico medico = medicoService.detalhaMedicoPorEmail(emailMedico);
-		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
-		especialidade.cadastraEspecialidadeMedico(new EspecialidadeMedicaRequest(medico));
-		especialidadeRepository.salvaEspecialidade(especialidade);
+//		Medico medico = medicoService.detalhaMedicoPorEmail(emailMedico);
+//		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
+//				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
+//		especialidade.cadastraEspecialidadeMedico(new EspecialidadeMedicaRequest(medico));
+//		especialidadeRepository.salvaEspecialidade(especialidade);
 		log.info("[finaliza] EspecialidadeApplicationService - alteraDadosMedico");
 	}
 

@@ -7,7 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.credencial.application.service.CredencialService;
-import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeMedicaRequest;
+import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
+import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
@@ -15,6 +16,7 @@ import dev.wakandaacademy.clinica.medico.application.api.MedicoIdResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoListResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.medico.application.repository.MedicoRepository;
+import dev.wakandaacademy.clinica.medico.domain.MedicaEspecialidadeRequest;
 import dev.wakandaacademy.clinica.medico.domain.Medico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +26,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MedicoApplicationService implements MedicoService {
 	private final CredencialService credencialService;
+	private final EspecialidadeService especialidadeService;
 	private final MedicoRepository medicoRepository;
 
 	@Override
@@ -97,12 +100,12 @@ public class MedicoApplicationService implements MedicoService {
 		log.info("[inicia] MedicoApplicationService - cadastraEspecialidadeMedico");
 		log.info("[idMedico] {} [idEspecialidade] {}", idMedico, idEspecialidade);
 		log.info("[emailMedico] {}", idEspecialidade);
+		Especialidade especialidade = especialidadeService.detalhaEspecialidadePorId(idEspecialidade);
 		Medico medico = medicoRepository.buscaMeditoPorId(idMedico)
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
 		Medico medicoEmail = detalhaMedicoPorEmail(emailMedico);
 		medico.pertenceMedico(medicoEmail);
-		medico.cadastraEspecialidade(new MedicaEspecialidadeRequest(medico));
-
+		medico.cadastraEspecialidade(new MedicaEspecialidadeRequest(especialidade));
 		medicoRepository.salvaMedico(medico);
 		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
 		
