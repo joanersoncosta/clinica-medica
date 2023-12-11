@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/v1/especialidade")
@@ -39,4 +40,5 @@ public interface EspecialidadeAPI {
 	@PatchMapping(value = "/{idEspecialidade}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void alteraEspecialidadePorId(@PathVariable(value = "idEspecialidade") UUID idEspecialidade, @RequestBody @Valid EspecialidadeAlteracaoRequest especialidadeRequest);
+
 }

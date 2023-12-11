@@ -90,7 +90,4 @@ public class MedicoApplicationService implements MedicoService {
 		medicoRepository.deletaMedicoPorId(medico);
 		log.info("[finaliza] MedicoApplicationService - alteraDadosMedico");
 	}
-	
-	
-
 }

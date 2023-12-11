@@ -15,4 +15,5 @@ public interface EspecialidadeService {
 	EspecialidadeResponse buscaEspecialidadePorId(UUID idEspecialidade);
 	void deletaEspecialidadePorId(UUID idEspecialidade);
 	void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest);
+	void cadastraEspecialidadeMedico(UUID idEspecialidade, String email);
 }

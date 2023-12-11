@@ -40,4 +40,5 @@ public interface MedicoAPI {
 	@DeleteMapping(value = "/{idMedico}")
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void deletaMedicoPorId(@PathVariable(value = "idMedico") UUID idMedico, @PathParam(value = "email") String email);
+
 }

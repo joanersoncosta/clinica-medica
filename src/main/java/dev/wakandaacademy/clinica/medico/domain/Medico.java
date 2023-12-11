@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
@@ -77,6 +78,9 @@ public class Medico {
 		this.telefone = postagemAlteracaoRequest.getTelefone();
 		this.dataNascimento = postagemAlteracaoRequest.getDataNascimento();
 		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
+	}
+
+	public void cadastraEspecialidade(EspecialidadeResponse especialidade) {
 	}
 
 }
