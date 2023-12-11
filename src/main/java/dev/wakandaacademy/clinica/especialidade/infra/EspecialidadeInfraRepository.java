@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.especialidade.infra;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -26,6 +28,14 @@ public class EspecialidadeInfraRepository implements EspecialidadeRepository {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Especialidade já cadastrada");
 		}
 		return especialidade;
+	}
+
+	@Override
+	public List<Especialidade> listaEspecialidade() {
+		log.info("[inicia] EspecialidadeInfraRepository - listaEspecialidade");
+		List<Especialidade> especialidades = especialidadeSpringDataMongoRepository.findAll();
+		log.info("[finaliza] EspecialidadeInfraRepository - listaEspecialidade");
+		return especialidades;
 	}
 
 }

@@ -2,7 +2,9 @@ package dev.wakandaacademy.clinica.especialidade.domain;
 
 import java.util.UUID;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
@@ -21,6 +23,7 @@ public class Especialidade {
 
 	@Id
 	private UUID idEspecialidade;
+//	@Indexed(unique = true)
 	private String titlo;
 	private String descricao;
 

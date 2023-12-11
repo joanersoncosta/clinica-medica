@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.especialidade.application.api;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
@@ -17,6 +19,13 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		EspecialidadeIdResponse especialidadeIdResponse = especialidadeService.criarEspecialidade(especialidadeRequest);
 		log.info("[finaliza] EspecialidadeRestController - criarEspecialidade");
 		return especialidadeIdResponse;
+	}
+	@Override
+	public List<EspecialidadeListResponse> listaEspecialidade() {
+		log.info("[inicia] EspecialidadeRestController - listaEspecialidade");
+		List<EspecialidadeListResponse> especialidadeListResponse = especialidadeService.listaEspecialidade();
+		log.info("[finaliza] EspecialidadeRestController - listaEspecialidade");
+		return especialidadeListResponse;
 	}
 
 }
