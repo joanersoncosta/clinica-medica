@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -44,5 +45,12 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		log.info("[inicia] EspecialidadeRestController - deletaEspecialidadePorId");
 		especialidadeService.deletaEspecialidadePorId(idEspecialidade);
 		log.info("[finaliza] EspecialidadeRestController - deletaEspecialidadePorId");
+	}
+
+	@Override
+	public void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest) {
+		log.info("[inicia] EspecialidadeRestController - alteraEspecialidadePorId");
+		especialidadeService.alteraEspecialidadePorId(idEspecialidade, especialidadeRequest);
+		log.info("[finaliza] EspecialidadeRestController - alteraEspecialidadePorId");
 	}
 }

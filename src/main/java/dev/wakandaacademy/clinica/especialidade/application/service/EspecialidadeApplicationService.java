@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
@@ -56,5 +57,16 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
 		especialidadeRepository.deletaEspecialidadePorId(especialidade);
 		log.info("[finaliza] EspecialidadeApplicationService - deletaEspecialidadePorId");
+	}
+
+	@Override
+	public void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest) {
+		log.info("[inicia] EspecialidadeApplicationService - alteraEspecialidadePorId");
+		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
+		especialidade.altera(especialidadeRequest);
+		especialidadeRepository.salvaEspecialidade(especialidade);
+		log.info("[finaliza] EspecialidadeApplicationService - alteraEspecialidadePorId");
+		
 	}
 }
