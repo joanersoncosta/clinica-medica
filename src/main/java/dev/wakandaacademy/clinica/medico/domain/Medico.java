@@ -2,6 +2,8 @@ package dev.wakandaacademy.clinica.medico.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -10,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
+import dev.wakandaacademy.clinica.especialidade.domain.EspecialidadeMedicos;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
@@ -44,6 +47,7 @@ public class Medico {
 	private String sexo;
 	@NotNull
 	private LocalDate dataNascimento;
+	private Set<MedicoEspecialidades> especialidades = new HashSet<>();
 
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
