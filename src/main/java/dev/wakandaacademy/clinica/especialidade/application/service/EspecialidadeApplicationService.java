@@ -9,11 +9,13 @@ import org.springframework.stereotype.Service;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeMedicaRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 import dev.wakandaacademy.clinica.especialidade.application.repository.EspecialidadeRepository;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.medico.domain.Medico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -81,16 +83,10 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 	}
 
 	@Override
-	public void cadastraEspecialidadeMedico(UUID idEspecialidade, String emailMedico) {
-		log.info("[inicia] EspecialidadeApplicationService - alteraDadosMedico");
-		log.info("[idEspecialidade] {} [idMedico] {}", idEspecialidade);
-		log.info("[emailMedico] {}", emailMedico);
-//		Medico medico = medicoService.detalhaMedicoPorEmail(emailMedico);
-//		Especialidade especialidade = especialidadeRepository.buscaEspecialidadePorId(idEspecialidade)
-//				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Especialidade não encontrada!"));
-//		especialidade.cadastraEspecialidadeMedico(new EspecialidadeMedicaRequest(medico));
-//		especialidadeRepository.salvaEspecialidade(especialidade);
-		log.info("[finaliza] EspecialidadeApplicationService - alteraDadosMedico");
+	public void atualizaEspecialidadeMedico(Especialidade especialidade, Medico medico) {
+		log.info("[inicia] EspecialidadeApplicationService - atualizaEspecialidadeMedico");
+		especialidade.atualizaEspecialidadeMedico(new EspecialidadeMedicaRequest(medico));
+		especialidadeRepository.salvaEspecialidade(especialidade);
+		log.info("[finaliza] EspecialidadeApplicationService - atualizaEspecialidadeMedico");
 	}
-
 }

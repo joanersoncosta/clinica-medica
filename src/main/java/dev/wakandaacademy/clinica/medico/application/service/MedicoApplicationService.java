@@ -107,6 +107,7 @@ public class MedicoApplicationService implements MedicoService {
 		medico.pertenceMedico(medicoEmail);
 		medico.cadastraEspecialidade(new MedicaEspecialidadeRequest(especialidade));
 		medicoRepository.salvaMedico(medico);
+		especialidadeService.atualizaEspecialidadeMedico(especialidade, medico);
 		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
 		
 	}

@@ -51,11 +51,10 @@ public class Especialidade {
 		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
 	}
 
-	public void cadastraEspecialidadeMedico(EspecialidadeMedicaRequest especialidadeMedicaRequest) {
+	public void atualizaEspecialidadeMedico(EspecialidadeMedicaRequest especialidadeMedicaRequest) {
 		EspecialidadeMedicos especialidadeMedico = new EspecialidadeMedicos(especialidadeMedicaRequest);
-		if(this.especialidadeMedicos.contains(especialidadeMedico)) {
-			throw APIException.build(HttpStatus.BAD_REQUEST, "Especialidade já cadastrada para este Médico!");
+		if (!this.especialidadeMedicos.contains(especialidadeMedico)) {
+			this.especialidadeMedicos.add(especialidadeMedico);
 		}
-		this.especialidadeMedicos.add(especialidadeMedico);
 	}
 }
