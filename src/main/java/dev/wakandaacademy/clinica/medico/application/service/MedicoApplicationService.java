@@ -111,4 +111,14 @@ public class MedicoApplicationService implements MedicoService {
 		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
 		
 	}
+
+	@Override
+	public Medico detalhaMedicoPorId(UUID idMedico) {
+		log.info("[inicia] MedicoApplicationService - detalhaMedicoPorId");
+		log.info("[idMedico] {idMedico}", idMedico);
+		Medico medico = medicoRepository.buscaMeditoPorId(idMedico)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		log.info("[finaliza] MedicoApplicationService - detalhaMedicoPorId");
+		return medico;
+	}
 }

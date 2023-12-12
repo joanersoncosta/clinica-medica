@@ -11,4 +11,5 @@ public interface PacienteService {
 	PacienteIdResponse criaNovoPaciente(PacienteNovoRequest pacienteRequest);
 	PacienteCriadoResponse buscaPacientePorId(UUID idPaciente);
 	Paciente buscaPacientePorEmail(String email);
+	Paciente detalhaPacientePorId(UUID idPaciente);
 }

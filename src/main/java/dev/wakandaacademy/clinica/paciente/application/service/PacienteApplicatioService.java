@@ -51,4 +51,14 @@ public class PacienteApplicatioService implements PacienteService {
 		log.info("[finaliza] PacienteApplicatioService - buscaPacientePorEmail");
 		return paciente;
 	}
+
+	@Override
+	public Paciente detalhaPacientePorId(UUID idPaciente) {
+		log.info("[inicia] PacienteApplicatioService - detalhaPacientePorId");
+		log.info("[idPaciente] {}", idPaciente);
+		Paciente paciente = pacienteRepository.buscaPacientePorId(idPaciente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
+		log.info("[finaliza] PacienteApplicatioService - detalhaPacientePorId");
+		return paciente;
+	}
 }

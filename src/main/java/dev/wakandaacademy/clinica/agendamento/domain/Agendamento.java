@@ -1,15 +1,13 @@
 package dev.wakandaacademy.clinica.agendamento.domain;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
+import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,7 +34,8 @@ public class Agendamento {
 	private UUID idPaciente;
 	@NotNull
 	private LocalDate dataConsulta;
-	private Set<MedicoAgendamentoHorario> horariosConsulta;
+	@Builder.Default
+	private StatusAgendamento statusAgendamento = StatusAgendamento.ATIVO;
 
 	public Agendamento(UUID idEspecialidade, UUID idMedico, UUID idHorario, UUID idPaciente, LocalDate dataConsulta) {
 		this.idAgendamento = UUID.randomUUID();
@@ -45,7 +44,7 @@ public class Agendamento {
 		this.idHorario = idHorario;
 		this.idPaciente = idPaciente;
 		this.dataConsulta = dataConsulta;
-		horariosConsulta = new HashSet<>();
+		this.statusAgendamento = StatusAgendamento.ATIVO;
 	}
 
 }

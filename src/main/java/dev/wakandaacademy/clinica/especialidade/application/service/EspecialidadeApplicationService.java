@@ -23,7 +23,6 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class EspecialidadeApplicationService implements EspecialidadeService {
-//	private final MedicoService medicoService;
 	private final EspecialidadeRepository especialidadeRepository;
 
 	@Override
