@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.horario.infra;
 
+import java.util.List;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -25,5 +27,13 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 		} catch (DataIntegrityViolationException ex) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Horário Padrão já cadastrado!");
 		}
+	}
+
+	@Override
+	public List<HorarioPadrao> getHorarioPadrao() {
+		log.info("[inicia] HorarioPadraoInfraRepository - getHorarioPadrao");
+		List<HorarioPadrao> horarios = horarioPadraoSpringDataMongoRepository.findAll();
+		log.info("[finaliza] HorarioPadraoInfraRepository - getHorarioPadrao");
+		return horarios;
 	}
 }

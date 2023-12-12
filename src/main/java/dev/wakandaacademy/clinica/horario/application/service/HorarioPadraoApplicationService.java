@@ -1,9 +1,11 @@
 package dev.wakandaacademy.clinica.horario.application.service;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
 import dev.wakandaacademy.clinica.horario.application.repository.HorarioPadraoRepository;
 import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 		log.info("[finaliza] HorarioPadraoApplicationService - criahorarioPadrao");
 	}
 
-	public void geraHorarioPeriodoManha() {
+	private void geraHorarioPeriodoManha() {
 		log.info("[inicia] HorarioPadraoApplicationService - geraHorarioPeriodoManha");
 		LocalTime horario = LocalTime.parse("08:00:00");
 		var anterior = horario;
@@ -38,7 +40,7 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 		log.info("[finaliza] HorarioPadraoApplicationService - geraHorarioPeriodoManha");
 	}
 	
-	public void geraHorarioPeriodoTarde() {
+	private void geraHorarioPeriodoTarde() {
 		log.info("[inicia] HorarioPadraoApplicationService - geraHorarioPeriodoTarde");
 		LocalTime horario = LocalTime.parse("14:00:00");
 		var anterior = horario;
@@ -51,5 +53,13 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 			proximo = proximo.plusMinutes(30);
 		}
 		log.info("[finaliza] HorarioPadraoApplicationService - geraHorarioPeriodoTarde");
+	}
+
+	@Override
+	public List<HorarioPadraoListResponse> getHorarioPadrao() {
+		log.info("[inicia] HorarioPadraoApplicationService - getListHorarioPadrao");
+		List<HorarioPadrao> horarios = horarioPadraoRepository.getHorarioPadrao();
+		log.info("[finaliza] HorarioPadraoApplicationService - getListHorarioPadrao");
+		return HorarioPadraoListResponse.converte(horarios);
 	}
 }

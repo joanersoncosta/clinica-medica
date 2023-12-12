@@ -1,5 +1,7 @@
 package dev.wakandaacademy.clinica.horario.application.api;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.horario.application.service.HorarioPadraoService;
@@ -19,6 +21,14 @@ public class HorarioPadraoRestController implements HorarioPadraoAPI {
 		horarioPadraoService.criahorarioPadrao();
 		log.info("[finaliza] HorarioPadraoRestController - criaHorario");
 		return mensagemPadrao;
+	}
+
+	@Override
+	public List<HorarioPadraoListResponse> getListHorarioPadrao() {
+		log.info("[inicia] HorarioPadraoRestController - getListHorarioPadrao");
+		List<HorarioPadraoListResponse> horario = horarioPadraoService.getHorarioPadrao();
+		log.info("[finaliza] HorarioPadraoRestController - getListHorarioPadrao");
+		return horario;
 	}
 
 }
