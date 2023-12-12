@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
+import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
+import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.horario.application.service.HorarioPadraoService;
@@ -21,18 +23,19 @@ public class AgendamentoApplicationService implements AgendamentoService {
 	private final PacienteService pacienteService;
 	private final EspecialidadeService especialidadeService;
 	private final HorarioPadraoService horarioService;
+	private final AgendamentoRepository agendamentoRepository;
 
 	@Override
-	public AgendamentoIdResponse criaAgendamento(AgendamentoRequest agendamento) {
+	public AgendamentoIdResponse criaAgendamento(AgendamentoRequest agendamentoRequest) {
 		log.info("[inicia] AgendamentoApplicationService - criaAgendamento");
-		Medico medico = medicoService.detalhaMedicoPorId(agendamento.getIdMedico());
-		pacienteService.detalhaPacientePorId(agendamento.getIdPaciente());
-		Especialidade especialidade = especialidadeService.detalhaEspecialidadePorId(agendamento.getIdEspecialidade());
-		horarioService.detalhaHorarioPorId(agendamento.getIdHorario());
+		Medico medico = medicoService.detalhaMedicoPorId(agendamentoRequest.getIdMedico());
+		pacienteService.detalhaPacientePorId(agendamentoRequest.getIdPaciente());
+		Especialidade especialidade = especialidadeService.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
+		horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
 		medico.pertenceEspecialidade(especialidade);
-		
+		Agendamento agendamento = agendamentoRepository.criaAgendamento(new Agendamento(agendamentoRequest));
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
-		return null;
+		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
 	}
 
 }

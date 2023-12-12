@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -37,14 +38,13 @@ public class Agendamento {
 	@Builder.Default
 	private StatusAgendamento statusAgendamento = StatusAgendamento.ATIVO;
 
-	public Agendamento(UUID idEspecialidade, UUID idMedico, UUID idHorario, UUID idPaciente, LocalDate dataConsulta) {
+	public Agendamento(AgendamentoRequest agendamento) {
 		this.idAgendamento = UUID.randomUUID();
-		this.idEspecialidade = idEspecialidade;
-		this.idMedico = idMedico;
-		this.idHorario = idHorario;
-		this.idPaciente = idPaciente;
-		this.dataConsulta = dataConsulta;
-		this.statusAgendamento = StatusAgendamento.ATIVO;
-	}
+		this.idEspecialidade = agendamento.getIdEspecialidade();
+		this.idMedico = agendamento.getIdMedico();
+		this.idHorario = agendamento.getIdHorario();
+		this.idPaciente = agendamento.getIdPaciente();
+		this.dataConsulta = agendamento.getDataConsulta();
+		this.statusAgendamento = StatusAgendamento.ATIVO;	}
 
 }

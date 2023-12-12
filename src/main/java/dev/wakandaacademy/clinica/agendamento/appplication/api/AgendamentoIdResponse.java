@@ -8,5 +8,5 @@ import lombok.Getter;
 @Builder
 @Getter
 public class AgendamentoIdResponse {
-	private UUID idEspecialidade;
+	private UUID idAgendamento;
 }
