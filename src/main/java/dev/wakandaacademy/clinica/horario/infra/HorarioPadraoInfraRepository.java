@@ -23,7 +23,7 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 			horarioPadraoSpringDataMongoRepository.save(horarioPadrao);
 			log.info("[finaliza] HorarioPadraoInfraRepository - salvaHorarioPadrao");
 		} catch (DataIntegrityViolationException ex) {
-			throw APIException.build(HttpStatus.BAD_REQUEST, "Horário Padrão já cadastradp!");
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Horário Padrão já cadastrado!");
 		}
 	}
 }

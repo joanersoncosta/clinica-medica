@@ -25,10 +25,10 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 
 	public void geraHorarioPeriodoManha() {
 		log.info("[inicia] HorarioPadraoApplicationService - geraHorarioPeriodoManha");
-		LocalTime horario = LocalTime.parse("07:00:00");
+		LocalTime horario = LocalTime.parse("08:00:00");
 		var anterior = horario;
 		LocalTime proximo = null;
-		for (int i = 1; i <= 2; i++) {
+		for (int i = 1; i <= 9; i++) {
 			if (i == 1) {
 				proximo = anterior;
 			}
@@ -43,7 +43,7 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 		LocalTime horario = LocalTime.parse("14:00:00");
 		var anterior = horario;
 		LocalTime proximo = null;
-		for (int i = 1; i <= 2; i++) {
+		for (int i = 1; i <= 7; i++) {
 			if (i == 1) {
 				proximo = anterior;
 			}
