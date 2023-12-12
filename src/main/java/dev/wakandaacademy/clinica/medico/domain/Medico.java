@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
@@ -61,7 +62,7 @@ public class Medico {
 		this.momentoDoDacastro = LocalDateTime.now();
 		this.especialidades = new HashSet<>();
 	}
-	
+
 	public String setSexo(Sexo sexo) {
 		if (sexo != null) {
 			this.sexo = sexo.getSexo();
@@ -72,7 +73,7 @@ public class Medico {
 	public void pertenceMedico(Medico medicoEmail) {
 		if (!idMedico.equals(medicoEmail.getIdMedico())) {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Médico não é dono da requisição solicitada!");
-		}		
+		}
 	}
 
 	public void alteraDados(MedicoAlteracaoRequest postagemAlteracaoRequest) {
@@ -85,10 +86,18 @@ public class Medico {
 
 	public void cadastraEspecialidade(MedicaEspecialidadeRequest medicaEspecialidadeRequest) {
 		MedicoEspecialidades especialidade = new MedicoEspecialidades(medicaEspecialidadeRequest);
-		if(this.especialidades.contains(especialidade)) {
+		if (this.especialidades.contains(especialidade)) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "Especialidade já cadastrada para este Médico!");
 		}
-		this.especialidades.add(especialidade);		
+		this.especialidades.add(especialidade);
+	}
+
+	public void pertenceEspecialidade(Especialidade especialidade) {
+		MedicoEspecialidades especialidadeMedico = MedicoEspecialidades.builder()
+				.idEspecialidade(especialidade.getIdEspecialidade()).build();
+		for (MedicoEspecialidades medico : especialidades) {
+			medico.pertenceEspecialidade(especialidadeMedico);
+		}
 	}
 
 }
