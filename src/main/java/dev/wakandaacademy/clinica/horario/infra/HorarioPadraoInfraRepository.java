@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.horario.infra;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,5 +46,13 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 		List<HorarioPadrao> horarios = horarioPadraoSpringDataMongoRepository.findAll();	
 		log.info("[finaliza] HorarioPadraoInfraRepository - buscaHorarios");
 		return horarios;
+	}
+
+	@Override
+	public Optional<HorarioPadrao> detalhaHorarioPorHorario(LocalTime horario) {
+		log.info("[inicia] HorarioPadraoInfraRepository - buscaHorarioPorId");
+		Optional<HorarioPadrao> horarioPadrao = horarioPadraoSpringDataMongoRepository.findByHorario(horario);
+		log.info("[finaliza] HorarioPadraoInfraRepository - buscaHorarioPorId");
+		return horarioPadrao;
 	}
 }

@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.agendamento.appplication.service;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -41,10 +42,9 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
-		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
+		HorarioPadrao horario = horarioService.detalhaHorarioPorHorario(LocalTime.parse(agendamentoRequest.getHorario()));
 		
 		medico.pertenceEspecialidade(especialidade);
-		medico.horarioDisponovel(horario);
 		
 		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
 		pacienteRepository.salvaPaciente(paciente);

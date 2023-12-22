@@ -22,7 +22,7 @@ public class HorarioPadrao {
 	
 	@Id
 	private UUID idHorarioPadrao;
-	@Indexed//(unique = true)
+	@Indexed
 	private LocalTime horario;
 	
 	public HorarioPadrao(LocalTime horarioGerado) {

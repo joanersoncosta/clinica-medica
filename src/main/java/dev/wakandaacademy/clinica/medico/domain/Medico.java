@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
-import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
@@ -101,15 +100,6 @@ public class Medico {
 			this.horariosDisponiveis.add(new MedicoHorarioDisponivel(h));
 		}
 		return this.horariosDisponiveis;
-	}
-
-	public void horarioDisponovel(HorarioPadrao horario) {
-		MedicoHorarioDisponivel verificaHorario = MedicoHorarioDisponivel.builder().horario(horario.getHorario()).build();
-		for(MedicoHorarioDisponivel h: horariosDisponiveis) {
-			if(!(h.getHorario() == verificaHorario.getHorario())) {
-				throw APIException.build(HttpStatus.BAD_REQUEST, "Horario indisponivel!");
-			}
-		}
 	}
 
 }

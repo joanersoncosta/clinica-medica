@@ -79,4 +79,13 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 		log.info("[finaliza] PacienteApplicatioService - detalhaPacientePorId");
 		return horario;
 	}
+
+	@Override
+	public HorarioPadrao detalhaHorarioPorHorario(LocalTime horario) {
+		log.info("[inicia] PacienteApplicatioService - detalhaHorarioPorHorario");
+		HorarioPadrao horarioPadrao = horarioPadraoRepository.detalhaHorarioPorHorario(horario)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Horário não encontrado!"));
+		log.info("[finaliza] PacienteApplicatioService - detalhaHorarioPorHorario");
+		return horarioPadrao;
+	}
 }

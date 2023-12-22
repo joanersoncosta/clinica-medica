@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.horario.application.repository;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,4 +12,5 @@ public interface HorarioPadraoRepository {
 	List<HorarioPadrao> getHorarioPadrao();
 	Optional<HorarioPadrao> buscaHorarioPorId(UUID idHorario);
 	List<HorarioPadrao> buscaHorarios();
+	Optional<HorarioPadrao> detalhaHorarioPorHorario(LocalTime horario);
 }
