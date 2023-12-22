@@ -41,4 +41,13 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
 		return agendamentos;
 	}
 
+	@Override
+	public List<Agendamento> buscaAgendamentosIdMedico(UUID idMedico) {
+		log.info("[inicia] AgendamentoInfraRepository - buscaAgendamentosIdMedico");
+		List<Agendamento> agendamentos = agendamentoSpringDataMongoRepository.findAllByIdMedico(idMedico);
+		log.info("[finaliza] AgendamentoInfraRepository - buscaAgendamentosIdMedico");
+		return agendamentos;
+
+	}
+
 }

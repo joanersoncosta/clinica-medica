@@ -10,4 +10,5 @@ public interface AgendamentoRepository {
 	Agendamento salvaAgendamento(Agendamento agendamento);
 	Optional<Agendamento> buscaAgendamentoporIdPaciente(UUID idPaciente);
 	List<Agendamento> buscaAgendamentosIdPaciente(UUID idPaciente);
+	List<Agendamento> buscaAgendamentosIdMedico(UUID idMedico);
 }

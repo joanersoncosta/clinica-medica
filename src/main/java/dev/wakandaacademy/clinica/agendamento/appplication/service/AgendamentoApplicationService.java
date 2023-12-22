@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
@@ -72,5 +73,13 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosIdPaciente");
 		return AgendamentoPaciente.converte(agendamentos);
 	}
+
+	@Override
+	public List<AgendamentoMedico> buscaAgendamentosIdMedico(UUID idMedico) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentosIdMedico");
+		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdMedico(idMedico);
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosIdMedico");
+		return AgendamentoMedico.converte(agendamentos);	
+		}
 
 }

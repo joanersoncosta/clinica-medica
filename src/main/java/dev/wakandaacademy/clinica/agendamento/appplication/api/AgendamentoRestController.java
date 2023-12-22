@@ -32,4 +32,12 @@ public class AgendamentoRestController implements AgendamentoAPI {
 		return agendamentos;
 	}
 
+	@Override
+	public List<AgendamentoMedico> buscaAgendamentosIdMedico(UUID IdMedico) {
+		log.info("[inicia] AgendamentoRestController - buscaAgendamentosIdMedico");
+		List<AgendamentoMedico> agendamentos = agendamentoService.buscaAgendamentosIdMedico(IdMedico);
+		log.info("[finaliza] AgendamentoRestController - buscaAgendamentosIdMedico");
+		return agendamentos;
+	}
+
 }

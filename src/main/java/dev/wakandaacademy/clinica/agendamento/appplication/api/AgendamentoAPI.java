@@ -26,4 +26,9 @@ public interface AgendamentoAPI {
 	@GetMapping(path = "/paciente/{IdPaciente}")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<AgendamentoPaciente> buscaAgendamentosIdPaciente(@PathVariable(name = "IdPaciente") UUID IdPaciente);
+
+	@GetMapping(path = "/medico/{IdMedico}")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<AgendamentoMedico> buscaAgendamentosIdMedico(@PathVariable(name = "IdMedico") UUID IdMedico);
+
 }
