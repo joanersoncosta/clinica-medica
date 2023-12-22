@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping(name = "/v1/agendamento")
+@RequestMapping("/agendamento")
 public interface AgendamentoAPI {
 	
 	@PostMapping

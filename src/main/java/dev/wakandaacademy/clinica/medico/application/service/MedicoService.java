@@ -18,5 +18,4 @@ public interface MedicoService {
 	Medico detalhaMedicoPorEmail(String email);
 	Medico detalhaMedicoPorId(UUID idMedico);
 	void deletaMedicoPorId(UUID idMedico, String email);
-	void cadastraEspecialidadeMedico(UUID idMedico, UUID idEspecialidade, String email);
 }

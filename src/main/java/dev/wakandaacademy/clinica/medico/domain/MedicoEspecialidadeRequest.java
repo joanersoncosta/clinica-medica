@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = "idEspecialidade")
 @Getter
-public class MedicaEspecialidadeRequest {
+public class MedicoEspecialidadeRequest {
 
 	private UUID idEspecialidade;
 	private String titlo;
 	private String descricao;
 
-	public MedicaEspecialidadeRequest(Especialidade especialidade) {
+	public MedicoEspecialidadeRequest(Especialidade especialidade) {
 		this.idEspecialidade = especialidade.getIdEspecialidade();
 		this.titlo = especialidade.getTitlo();
 		this.descricao = especialidade.getDescricao();

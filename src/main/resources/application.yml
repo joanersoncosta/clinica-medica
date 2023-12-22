@@ -6,5 +6,5 @@ spring:
   data:
     mongodb:
       authentication-database: admin
-      uri: ${MONGO_DB_URI:mongodb://localhost:27017/clinicaMedicaDB}
-      auto-index-creation: true
+      uri: ${MONGO_DB_URI:mongodb+srv://clinicaDB:urnFq0tMyv3DtxbF@wakandadev.cjsar7m.mongodb.net/clinicaDB?retryWrites=true&w=majority}
+      auto-index-creation: false

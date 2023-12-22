@@ -10,4 +10,5 @@ public interface HorarioPadraoRepository {
 	void salvaHorarioPadrao(HorarioPadrao horarioPadrao);
 	List<HorarioPadrao> getHorarioPadrao();
 	Optional<HorarioPadrao> buscaHorarioPorId(UUID idHorario);
+	List<HorarioPadrao> buscaHorarios();
 }

@@ -12,10 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -26,7 +22,7 @@ public class HorarioPadrao {
 	
 	@Id
 	private UUID idHorarioPadrao;
-	@Indexed(unique = true)
+	@Indexed//(unique = true)
 	private LocalTime horario;
 	
 	public HorarioPadrao(LocalTime horarioGerado) {

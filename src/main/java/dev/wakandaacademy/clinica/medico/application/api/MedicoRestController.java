@@ -53,11 +53,4 @@ public class MedicoRestController implements MedicoAPI {
 		log.info("[finaliza] MedicoRestController - deletaMedico");
 	}
 	
-	@Override
-	public void cadastraEspecialidadeMedico(UUID idMedico, UUID idEspecialidade, String email) {
-		log.info("[inicia] MedicoRestController - cadastraEspecialidadeMedico");
-		medicoService.cadastraEspecialidadeMedico(idMedico, idEspecialidade, email);
-		log.info("[finaliza] MedicoRestController - cadastraEspecialidadeMedico");
-	}
-
 }

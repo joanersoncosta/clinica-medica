@@ -36,9 +36,9 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 
 	@Override
 	public List<EspecialidadeListResponse> listaEspecialidade() {
-		log.info("[inicia] EspecialidadeApplicationService - criarEspecialidade");
+		log.info("[inicia] EspecialidadeApplicationService - listaEspecialidade");
 		List<Especialidade> especialidades = especialidadeRepository.listaEspecialidade();
-		log.info("[finaliza] EspecialidadeApplicationService - criarEspecialidade");
+		log.info("[finaliza] EspecialidadeApplicationService - listaEspecialidade");
 		return EspecialidadeListResponse.converte(especialidades);
 	}
 
@@ -81,11 +81,4 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 
 	}
 
-	@Override
-	public void atualizaEspecialidadeMedico(Especialidade especialidade, Medico medico) {
-		log.info("[inicia] EspecialidadeApplicationService - atualizaEspecialidadeMedico");
-		especialidade.atualizaEspecialidadeMedico(new EspecialidadeMedicaRequest(medico));
-		especialidadeRepository.salvaEspecialidade(especialidade);
-		log.info("[finaliza] EspecialidadeApplicationService - atualizaEspecialidadeMedico");
-	}
 }

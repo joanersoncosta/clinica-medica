@@ -1,15 +1,14 @@
 package dev.wakandaacademy.clinica.agendamento.domain;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,25 +25,30 @@ public class Agendamento {
 	@Id
 	private UUID idAgendamento;
 	@Indexed
-	private UUID idEspecialidade;
+	private UUID idPaciente;
 	@Indexed
 	private UUID idMedico;
-	@Indexed(unique = true)
-	private UUID idHorario;
 	@Indexed
-	private UUID idPaciente;
-	@NotNull
+	private UUID idEspecialidade;
+	private String paciente;
+	private String medico;
+	private String especialidade;
 	private LocalDate dataConsulta;
+	private LocalTime horario;
 	@Builder.Default
-	private StatusAgendamento statusAgendamento = StatusAgendamento.ATIVO;
+	private StatusAgendamento statusAgendamento = StatusAgendamento.CONFIRMADO;
 
-	public Agendamento(AgendamentoRequest agendamento) {
+	public Agendamento(AgendamentoClienteConsulta consultas) {
 		this.idAgendamento = UUID.randomUUID();
-		this.idEspecialidade = agendamento.getIdEspecialidade();
-		this.idMedico = agendamento.getIdMedico();
-		this.idHorario = agendamento.getIdHorario();
-		this.idPaciente = agendamento.getIdPaciente();
-		this.dataConsulta = agendamento.getDataConsulta();
-		this.statusAgendamento = StatusAgendamento.ATIVO;	}
+		this.idPaciente = consultas.getIdPaciente();
+		this.idMedico = consultas.getIdMedico();
+		this.idEspecialidade = consultas.getIdEspecialidade();
+		this.paciente = consultas.getPaciente();
+		this.medico = consultas.getMedico();
+		this.especialidade = consultas.getEspecialidade();
+		this.dataConsulta = consultas.getDataConsulta();
+		this.horario = consultas.getHorario();
+		this.statusAgendamento = StatusAgendamento.CONFIRMADO;
+	}
 
 }

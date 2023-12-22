@@ -10,13 +10,14 @@ import dev.wakandaacademy.clinica.credencial.application.service.CredencialServi
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
+import dev.wakandaacademy.clinica.horario.application.service.HorarioPadraoService;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoCriadoResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoIdResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoListResponse;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.medico.application.repository.MedicoRepository;
-import dev.wakandaacademy.clinica.medico.domain.MedicaEspecialidadeRequest;
 import dev.wakandaacademy.clinica.medico.domain.Medico;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,13 +28,17 @@ import lombok.extern.log4j.Log4j2;
 public class MedicoApplicationService implements MedicoService {
 	private final CredencialService credencialService;
 	private final EspecialidadeService especialidadeService;
+	private final HorarioPadraoService horarioService;
 	private final MedicoRepository medicoRepository;
 
 	@Override
 	public MedicoIdResponse postNovoMedico(MedicoNovoRequest medicoNovoRequest) {
 		log.info("[inicia] MedicoApplicationService - postNovoMedico");
-		Medico medico = medicoRepository.salvaMedico(new Medico(medicoNovoRequest));
+		Especialidade especialidade= especialidadeService.detalhaEspecialidadePorId(medicoNovoRequest.getIdEspecialidade());
+		List<HorarioPadraoListResponse> horarioPadrao = horarioService.getHorarioPadrao();
+		Medico medico = medicoRepository.salvaMedico(new Medico(medicoNovoRequest, horarioPadrao));
 		credencialService.salvaCredencialMedico(medicoNovoRequest);
+//		especialidadeService.atualizaEspecialidadeMedico(especialidade, medico);
 		log.info("[finaliza] MedicoApplicationService - postNovoMedico");
 		return MedicoIdResponse.builder().idMedico(medico.getIdMedico()).build();
 	}
@@ -93,23 +98,6 @@ public class MedicoApplicationService implements MedicoService {
 		medico.pertenceMedico(medicoEmail);
 		medicoRepository.deletaMedicoPorId(medico);
 		log.info("[finaliza] MedicoApplicationService - alteraDadosMedico");
-	}
-
-	@Override
-	public void cadastraEspecialidadeMedico(UUID idMedico, UUID idEspecialidade, String emailMedico) {
-		log.info("[inicia] MedicoApplicationService - cadastraEspecialidadeMedico");
-		log.info("[idMedico] {} [idEspecialidade] {}", idMedico, idEspecialidade);
-		log.info("[emailMedico] {}", idEspecialidade);
-		Especialidade especialidade = especialidadeService.detalhaEspecialidadePorId(idEspecialidade);
-		Medico medico = medicoRepository.buscaMeditoPorId(idMedico)
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
-		Medico medicoEmail = detalhaMedicoPorEmail(emailMedico);
-		medico.pertenceMedico(medicoEmail);
-		medico.cadastraEspecialidade(new MedicaEspecialidadeRequest(especialidade));
-		medicoRepository.salvaMedico(medico);
-		especialidadeService.atualizaEspecialidadeMedico(especialidade, medico);
-		log.info("[finaliza] MedicoApplicationService - cadastraEspecialidadeMedico");
-		
 	}
 
 	@Override

@@ -23,7 +23,7 @@ public class MedicoEspecialidades {
 	private String titlo;
 	private String descricao;
 
-	public MedicoEspecialidades(MedicaEspecialidadeRequest especialidade) {
+	public MedicoEspecialidades(MedicoEspecialidadeRequest especialidade) {
 		this.idEspecialidade = especialidade.getIdEspecialidade();
 		this.titlo = especialidade.getTitlo();
 		this.descricao = especialidade.getDescricao();

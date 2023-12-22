@@ -11,7 +11,6 @@ import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
 import dev.wakandaacademy.clinica.horario.application.repository.HorarioPadraoRepository;
 import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
-import dev.wakandaacademy.clinica.paciente.domain.Paciente;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -24,6 +23,10 @@ public class HorarioPadraoApplicationService implements HorarioPadraoService {
 	@Override
 	public void criahorarioPadrao() {
 		log.info("[inicia] HorarioPadraoApplicationService - criahorarioPadrao");
+		List<HorarioPadrao> buscaHorarios = horarioPadraoRepository.buscaHorarios();
+		if(!buscaHorarios.isEmpty()) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Horário já cadastrado!");
+		}
 		geraHorarioPeriodoManha();
 		geraHorarioPeriodoTarde();
 		log.info("[finaliza] HorarioPadraoApplicationService - criahorarioPadrao");

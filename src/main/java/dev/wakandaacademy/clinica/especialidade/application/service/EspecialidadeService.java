@@ -9,7 +9,6 @@ import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeLis
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
-import dev.wakandaacademy.clinica.medico.domain.Medico;
 
 public interface EspecialidadeService {
 	EspecialidadeIdResponse criarEspecialidade(EspecialidadeRequest especialidadeRequest);
@@ -18,5 +17,4 @@ public interface EspecialidadeService {
 	Especialidade detalhaEspecialidadePorId(UUID idEspecialidade);
 	void deletaEspecialidadePorId(UUID idEspecialidade);
 	void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest);
-	void atualizaEspecialidadeMedico(Especialidade especialidade, Medico medico);
 }

@@ -1,6 +1,7 @@
 package dev.wakandaacademy.clinica.medico.application.api;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import dev.wakandaacademy.clinica.credencial.domain.Perfil;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
@@ -12,6 +13,7 @@ import lombok.Getter;
 
 @Getter
 public class MedicoNovoRequest {
+	private UUID idEspecialidade;
 	@NotBlank
 	private String nome;
 	@NotBlank

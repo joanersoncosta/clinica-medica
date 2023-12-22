@@ -41,7 +41,4 @@ public interface MedicoAPI {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void deletaMedicoPorId(@PathVariable(value = "idMedico") UUID idMedico, @PathParam(value = "email") String email);
 
-	@PatchMapping(value = "/{idMedico}/especialidade/{idEspecialidade}/cadastra-especialidade")
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	void cadastraEspecialidadeMedico(@PathVariable(value = "idMedico") UUID idMedico, @PathVariable(value = "idEspecialidade") UUID idEspecialidade, @PathParam(value = "email") String email);
 }

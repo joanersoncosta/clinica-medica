@@ -1,17 +1,24 @@
 package dev.wakandaacademy.clinica.agendamento.appplication.service;
 
+import java.util.UUID;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
+import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoClienteConsulta;
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
+import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.horario.application.service.HorarioPadraoService;
-import dev.wakandaacademy.clinica.medico.application.service.MedicoService;
+import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
+import dev.wakandaacademy.clinica.medico.application.repository.MedicoRepository;
 import dev.wakandaacademy.clinica.medico.domain.Medico;
-import dev.wakandaacademy.clinica.paciente.application.service.PacienteService;
+import dev.wakandaacademy.clinica.paciente.application.respository.PacienteRepository;
+import dev.wakandaacademy.clinica.paciente.domain.Paciente;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,23 +26,41 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class AgendamentoApplicationService implements AgendamentoService {
-	private final MedicoService medicoService;
-	private final PacienteService pacienteService;
-	private final EspecialidadeService especialidadeService;
+	private final MedicoRepository medicoRepository;
+	private final PacienteRepository pacienteRepository;
 	private final HorarioPadraoService horarioService;
+	private final EspecialidadeService especialidadeService;
 	private final AgendamentoRepository agendamentoRepository;
 
 	@Override
 	public AgendamentoIdResponse criaAgendamento(AgendamentoRequest agendamentoRequest) {
 		log.info("[inicia] AgendamentoApplicationService - criaAgendamento");
-		Medico medico = medicoService.detalhaMedicoPorId(agendamentoRequest.getIdMedico());
-		pacienteService.detalhaPacientePorId(agendamentoRequest.getIdPaciente());
-		Especialidade especialidade = especialidadeService.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
-		horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
+		Medico medico = medicoRepository.buscaMeditoPorId(agendamentoRequest.getIdMedico())
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
+		Paciente paciente = pacienteRepository.buscaPacientePorId(agendamentoRequest.getIdPaciente())
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
+		Especialidade especialidade = especialidadeService
+				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
+		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
+		
 		medico.pertenceEspecialidade(especialidade);
-		Agendamento agendamento = agendamentoRepository.criaAgendamento(new Agendamento(agendamentoRequest));
+		medico.horarioDisponovel(horario);
+		
+		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
+		pacienteRepository.salvaPaciente(paciente);
+
+		medicoRepository.salvaMedico(medico);
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
 		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
+	}
+	
+	@Override
+	public Agendamento buscaAgendamentoporIdPaciente(UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentoporIdPaciente");
+		Agendamento agendamento = agendamentoRepository.buscaAgendamentoporIdPaciente(idPaciente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não possui agendamento!"));
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentoporIdPaciente");
+		return agendamento;
 	}
 
 }

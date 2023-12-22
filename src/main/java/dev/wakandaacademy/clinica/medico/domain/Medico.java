@@ -2,8 +2,8 @@ package dev.wakandaacademy.clinica.medico.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
+import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
@@ -33,36 +35,48 @@ import lombok.NoArgsConstructor;
 public class Medico {
 	@Id
 	private UUID idMedico;
-	@NotBlank
-	private String nome;
+	@Indexed
+	private UUID idEspecialidade;
 	@Email
-	@NotBlank
+	@NotBlank(message = "Campo Email é obrigatório!")
 	@Indexed(unique = true)
 	private String email;
-	@NotNull
+	@NotBlank(message = "Campo Nome é obrigatório!")
+	private String nome;
+	@NotNull(message = "Campo crm é obrigatório!")
+	@Indexed(unique = true)
 	private String crm;
-	@NotBlank
+	@NotBlank(message = "Campo Telefone é obrigatório!")
 	private String telefone;
 	private String sexo;
 	@NotNull
 	private LocalDate dataNascimento;
-	private Set<MedicoEspecialidades> especialidades;
-
+	private List<MedicoHorarioDisponivel> horariosDisponiveis;
 	private LocalDateTime momentoDoDacastro;
 	private LocalDateTime dataHoraDaultimaAlteracao;
 
-	public Medico(MedicoNovoRequest medicoNovoRequest) {
+	public Medico(MedicoNovoRequest medicoNovoRequest, List<HorarioPadraoListResponse> listHorario) {
 		this.idMedico = UUID.randomUUID();
+		this.idEspecialidade = medicoNovoRequest.getIdEspecialidade();
 		this.nome = medicoNovoRequest.getNome();
 		this.email = medicoNovoRequest.getEmail();
 		this.crm = medicoNovoRequest.getCrm();
 		this.telefone = medicoNovoRequest.getTelefone();
 		this.sexo = setSexo(medicoNovoRequest.getSexo());
 		this.dataNascimento = medicoNovoRequest.getDataNascimento();
+		this.horariosDisponiveis = new ArrayList<>();
+		this.horariosDisponiveis = cadastraHorarioPadrao(listHorario);
 		this.momentoDoDacastro = LocalDateTime.now();
-		this.especialidades = new HashSet<>();
 	}
 
+	public void alteraDados(MedicoAlteracaoRequest postagemAlteracaoRequest) {
+		this.nome = postagemAlteracaoRequest.getNome();
+		this.crm = postagemAlteracaoRequest.getCrm();
+		this.telefone = postagemAlteracaoRequest.getTelefone();
+		this.dataNascimento = postagemAlteracaoRequest.getDataNascimento();
+		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
+	}
+	
 	public String setSexo(Sexo sexo) {
 		if (sexo != null) {
 			this.sexo = sexo.getSexo();
@@ -75,28 +89,26 @@ public class Medico {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Médico não é dono da requisição solicitada!");
 		}
 	}
-
-	public void alteraDados(MedicoAlteracaoRequest postagemAlteracaoRequest) {
-		this.nome = postagemAlteracaoRequest.getNome();
-		this.crm = postagemAlteracaoRequest.getCrm();
-		this.telefone = postagemAlteracaoRequest.getTelefone();
-		this.dataNascimento = postagemAlteracaoRequest.getDataNascimento();
-		this.dataHoraDaultimaAlteracao = LocalDateTime.now();
-	}
-
-	public void cadastraEspecialidade(MedicaEspecialidadeRequest medicaEspecialidadeRequest) {
-		MedicoEspecialidades especialidade = new MedicoEspecialidades(medicaEspecialidadeRequest);
-		if (this.especialidades.contains(especialidade)) {
-			throw APIException.build(HttpStatus.BAD_REQUEST, "Especialidade já cadastrada para este Médico!");
-		}
-		this.especialidades.add(especialidade);
-	}
-
+	
 	public void pertenceEspecialidade(Especialidade especialidade) {
-		MedicoEspecialidades especialidadeMedico = MedicoEspecialidades.builder()
-				.idEspecialidade(especialidade.getIdEspecialidade()).build();
-		for (MedicoEspecialidades medico : especialidades) {
-			medico.pertenceEspecialidade(especialidadeMedico);
+		if (!idEspecialidade.equals(especialidade.getIdEspecialidade())) {
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Médico não possui esta Especialidade!");
+		}
+	}
+	
+	private List<MedicoHorarioDisponivel> cadastraHorarioPadrao(List<HorarioPadraoListResponse> listHorario){
+		for(HorarioPadraoListResponse h: listHorario) {
+			this.horariosDisponiveis.add(new MedicoHorarioDisponivel(h));
+		}
+		return this.horariosDisponiveis;
+	}
+
+	public void horarioDisponovel(HorarioPadrao horario) {
+		MedicoHorarioDisponivel verificaHorario = MedicoHorarioDisponivel.builder().horario(horario.getHorario()).build();
+		for(MedicoHorarioDisponivel h: horariosDisponiveis) {
+			if(!(h.getHorario() == verificaHorario.getHorario())) {
+				throw APIException.build(HttpStatus.BAD_REQUEST, "Horario indisponivel!");
+			}
 		}
 	}
 

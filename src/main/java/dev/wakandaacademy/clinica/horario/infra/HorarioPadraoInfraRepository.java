@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
-import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.horario.application.repository.HorarioPadraoRepository;
 import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +19,8 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 	
 	@Override
 	public void salvaHorarioPadrao(HorarioPadrao horarioPadrao) {
-		try {
-			log.info("[inicia] HorarioPadraoInfraRepository - salvaHorarioPadrao");
 			horarioPadraoSpringDataMongoRepository.save(horarioPadrao);
-			log.info("[finaliza] HorarioPadraoInfraRepository - salvaHorarioPadrao");
-		} catch (DataIntegrityViolationException ex) {
-			throw APIException.build(HttpStatus.BAD_REQUEST, "Horário Padrão já cadastrado!");
-		}
+		log.info("[finaliza] HorarioPadraoInfraRepository - salvaHorarioPadrao");
 	}
 
 	@Override
@@ -45,5 +37,13 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 		Optional<HorarioPadrao> horario = horarioPadraoSpringDataMongoRepository.findById(idHorario);
 		log.info("[finaliza] HorarioPadraoInfraRepository - buscaHorarioPorId");
 		return horario;
+	}
+
+	@Override
+	public List<HorarioPadrao> buscaHorarios() {
+		log.info("[inicia] HorarioPadraoInfraRepository - buscaHorarios");
+		List<HorarioPadrao> horarios = horarioPadraoSpringDataMongoRepository.findAll();	
+		log.info("[finaliza] HorarioPadraoInfraRepository - buscaHorarios");
+		return horarios;
 	}
 }

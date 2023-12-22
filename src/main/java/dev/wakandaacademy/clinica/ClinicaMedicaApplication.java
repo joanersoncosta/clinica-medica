@@ -13,8 +13,8 @@ public class ClinicaMedicaApplication {
 	public String getHome() {
 		return "Clinica Medica - API Home";
 	}
-	
-	public static void main(String[] args) {
+
+	public static void main(String[] args){
 		SpringApplication.run(ClinicaMedicaApplication.class, args);
 	}
 }
