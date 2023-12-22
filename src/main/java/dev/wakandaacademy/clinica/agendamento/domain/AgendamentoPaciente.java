@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
+
+import dev.wakandaacademy.clinica.handler.APIException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +39,5 @@ public class AgendamentoPaciente {
 				.map(AgendamentoPaciente::new)
 				.collect(Collectors.toList());
 	}
+	
 }

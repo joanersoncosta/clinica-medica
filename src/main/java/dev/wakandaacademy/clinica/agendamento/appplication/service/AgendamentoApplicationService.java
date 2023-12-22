@@ -49,10 +49,9 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		
 		medico.pertenceEspecialidade(especialidade);
 		
+		verificaAgendamentoPaciente(paciente, agendamentoRequest, agendamentoRequest.getIdPaciente());
+		verificaAgendamentoMedico(medico, agendamentoRequest, agendamentoRequest.getIdMedico());
 		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
-		pacienteRepository.salvaPaciente(paciente);
-
-		medicoRepository.salvaMedico(medico);
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
 		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
 	}
@@ -80,6 +79,20 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdMedico(idMedico);
 		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosIdMedico");
 		return AgendamentoMedico.converte(agendamentos);	
-		}
+	}
+	
+	private void verificaAgendamentoPaciente(Paciente paciente, AgendamentoRequest agendamento, UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - verificaAgendamentoPaciente");
+		List<AgendamentoPaciente> buscaAgendamentosPaciente = buscaAgendamentosIdPaciente(idPaciente);
+		paciente.verificaAgendamentoPaciente(buscaAgendamentosPaciente, agendamento.getDataConsulta());
+		log.info("[finaliza] AgendamentoApplicationService - verificaAgendamentoPaciente");
+	}
+	
+	private void verificaAgendamentoMedico(Medico medico, AgendamentoRequest agendamento, UUID idMedico) {
+		log.info("[inicia] AgendamentoApplicationService - verificaAgendamentoMedico");
+		List<AgendamentoMedico> buscaAgendamentosMedico = buscaAgendamentosIdMedico(idMedico);
+		medico.verificaAgendamentoMedico(buscaAgendamentosMedico, agendamento.getDataConsulta());
+		log.info("[finaliza] AgendamentoApplicationService - verificaAgendamentoMedico");
+	}
 
 }

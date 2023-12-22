@@ -1,12 +1,17 @@
 package dev.wakandaacademy.clinica.paciente.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
+import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
@@ -58,9 +63,15 @@ public class Paciente {
 		return this.sexo;
 	}
 
-//	public void cadastraConsulta(AgendamentoClienteConsulta agendamentoClienteConsulta) {
-//		if(consultas.isEmpty())consultas = new ArrayList<>();
-//		consultas.add(new AgendamentoCliente(agendamentoClienteConsulta));
-//	}
+	public void verificaAgendamentoPaciente(List<AgendamentoPaciente> agendamentosPaciente, String dataConsulta) {
+        LocalDate data = LocalDate.parse(dataConsulta);
+		int diaDoMes = data.getDayOfMonth();
+        int numeroDoMes = data.getMonthValue();
+        for(AgendamentoPaciente agenda: agendamentosPaciente) {
+        	if(agenda.getDataConsulta().getDayOfMonth() == diaDoMes && agenda.getDataConsulta().getMonthValue() == numeroDoMes) {
+        		throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já possui consulta para esse hórario!!");
+        	}
+        }
+	}
 
 }
