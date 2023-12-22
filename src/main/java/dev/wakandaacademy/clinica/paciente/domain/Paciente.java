@@ -1,16 +1,12 @@
 package dev.wakandaacademy.clinica.paciente.domain;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoCliente;
-import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoClienteConsulta;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;

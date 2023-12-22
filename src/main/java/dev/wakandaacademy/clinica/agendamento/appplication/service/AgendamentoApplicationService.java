@@ -1,6 +1,7 @@
 package dev.wakandaacademy.clinica.agendamento.appplication.service;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoReques
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoClienteConsulta;
+import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
@@ -61,6 +63,14 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não possui agendamento!"));
 		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentoporIdPaciente");
 		return agendamento;
+	}
+
+	@Override
+	public List<AgendamentoPaciente> buscaAgendamentosIdPaciente(UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentosIdPaciente");
+		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdPaciente(idPaciente);
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosIdPaciente");
+		return AgendamentoPaciente.converte(agendamentos);
 	}
 
 }

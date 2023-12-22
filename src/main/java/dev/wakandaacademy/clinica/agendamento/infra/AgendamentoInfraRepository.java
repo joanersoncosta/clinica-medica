@@ -1,5 +1,6 @@
 package dev.wakandaacademy.clinica.agendamento.infra;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,6 +31,14 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
 		Optional<Agendamento> agendamento = agendamentoSpringDataMongoRepository.findByIdPaciente(idPaciente);
 		log.info("[finaliza] AgendamentoInfraRepository - criaAgendamento");
 		return agendamento;
+	}
+
+	@Override
+	public List<Agendamento> buscaAgendamentosIdPaciente(UUID idPaciente) {
+		log.info("[inicia] AgendamentoInfraRepository - buscaAgendamentosIdPaciente");
+		List<Agendamento> agendamentos = agendamentoSpringDataMongoRepository.findAllByIdPaciente(idPaciente);
+		log.info("[finaliza] AgendamentoInfraRepository - buscaAgendamentosIdPaciente");
+		return agendamentos;
 	}
 
 }
