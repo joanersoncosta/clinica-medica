@@ -2,37 +2,40 @@ package dev.wakandaacademy.clinica.agendamento.appplication.api;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
 import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import lombok.Value;
 
 @Value
-public class AgendamentoMedicoListResponse {
+public class AgendamentoResponse {
+	private UUID idAgendamento;
 	private UUID idPaciente;
+	private UUID idMedico;
+	private UUID idEspecialidade;
 	private String paciente;
+	private String medico;
+	private String especialidade;
 	private StatusAgendamento statusAgendamento;
 	private LocalDate dataConsulta;
 	private LocalTime horario;
 	
-	public AgendamentoMedicoListResponse(Agendamento agendamento) {
+	public AgendamentoResponse(Agendamento agendamento) {
+		this.idAgendamento = agendamento.getIdAgendamento();
 		this.idPaciente = agendamento.getIdPaciente();
+		this.idMedico = agendamento.getIdMedico();
+		this.idEspecialidade = agendamento.getIdEspecialidade();
 		this.paciente = agendamento.getPaciente();
+		this.medico = agendamento.getMedico();
+		this.especialidade = agendamento.getEspecialidade();
 		this.statusAgendamento = agendamento.getStatusAgendamento();
 		this.dataConsulta = agendamento.getDataConsulta();
 		this.horario = agendamento.getHorario();
 	}
 	
-	public static List<AgendamentoMedicoListResponse> converte(List<Agendamento> agendamentos,
-			AgendamentoDataRequest dataConsulta) {
-		return agendamentos.stream()
-				.filter(n -> n.getDataConsulta().equals(LocalDate.parse(dataConsulta.getDataConsulta())))
-				.map(AgendamentoMedicoListResponse::new)
-				.sorted((p1, p2) -> p1.getHorario().compareTo(p2.getHorario()))
-				.collect(Collectors.toList());
+	public static AgendamentoResponse converteParaResponse(Agendamento agendamento) {
+		return new AgendamentoResponse(agendamento);
 	}
-
+	
 }

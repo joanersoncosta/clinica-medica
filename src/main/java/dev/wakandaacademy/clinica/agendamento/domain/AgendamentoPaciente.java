@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class AgendamentoPaciente {
 	private UUID idMedico;
 	private String medico;
 	private String especialidade;
+	private StatusAgendamento statusAgendamento;
 	private LocalDate dataConsulta;
 	private LocalTime horario;
 
@@ -27,6 +29,7 @@ public class AgendamentoPaciente {
 		this.idMedico = consulta.getIdMedico();
 		this.medico = consulta.getMedico();
 		this.especialidade = consulta.getEspecialidade();
+		this.statusAgendamento = consulta.getStatusAgendamento();
 		this.dataConsulta = consulta.getDataConsulta();
 		this.horario = consulta.getHorario();
 	}

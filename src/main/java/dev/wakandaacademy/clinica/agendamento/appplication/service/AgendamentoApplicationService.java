@@ -11,6 +11,7 @@ import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResp
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedicoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
@@ -47,15 +48,22 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
 		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
-
 		medico.pertenceEspecialidade(especialidade);
-		
 		verificaAgendamentoPaciente(paciente, horario, agendamentoRequest, agendamentoRequest.getIdPaciente());
 		verificaAgendamentoMedico(medico, horario, agendamentoRequest, agendamentoRequest.getIdMedico());
-		
 		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
 		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
+	}
+	
+	@Override
+	public AgendamentoResponse buscaAgendamentoPorId(UUID idAgendamento) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentoPorId");
+		AgendamentoResponse agendamento = agendamentoRepository.buscaAgendamentoPorId(idAgendamento)
+				.map(AgendamentoResponse::converteParaResponse)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado"));
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentoPorId");
+		return agendamento;
 	}
 	
 	@Override
@@ -140,7 +148,6 @@ public class AgendamentoApplicationService implements AgendamentoService {
 
 	}
 
-	@Override
 	public Agendamento detalhaAgendamento(UUID idAgendamento) {
 		log.info("[inicia] AgendamentoApplicationService - detalhaAgendamento");
 		Agendamento agendamento = agendamentoRepository.buscaAgendamentoPorId(idAgendamento)

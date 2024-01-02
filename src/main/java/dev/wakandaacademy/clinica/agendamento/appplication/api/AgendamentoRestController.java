@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.service.AgendamentoService;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -23,6 +22,14 @@ public class AgendamentoRestController implements AgendamentoAPI {
 		AgendamentoIdResponse idAgendamento = agendamentoService.criaAgendamento(agendamento);
 		log.info("[finaliza] AgendamentoRestController - postAgendamento");
 		return idAgendamento;
+	}
+	
+	@Override
+	public AgendamentoResponse buscaAgendamentoPorId(UUID idAgendamento) {
+		log.info("[inicia] AgendamentoRestController - buscaAgendamentoPorId");
+		AgendamentoResponse agendamento = agendamentoService.buscaAgendamentoPorId(idAgendamento);
+		log.info("[finaliza] AgendamentoRestController - buscaAgendamentoPorId");
+		return agendamento;
 	}
 	
 	@Override
