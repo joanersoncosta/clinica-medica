@@ -43,8 +43,7 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		log.info("[inicia] AgendamentoApplicationService - criaAgendamento");
 		Medico medico = medicoRepository.buscaMeditoPorId(agendamentoRequest.getIdMedico())
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado!"));
-		Paciente paciente = pacienteRepository.buscaPacientePorId(agendamentoRequest.getIdPaciente())
-				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
+		Paciente paciente = detalhaPaciente(agendamentoRequest.getIdPaciente());
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
 		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
@@ -148,6 +147,17 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado"));
 		log.info("[finaliza] AgendamentoApplicationService - detalhaAgendamento");
 		return agendamento;
+	}
+
+	@Override
+	public void cancelaAgendamentoPorId(UUID idAgendamento, UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - cancelaAgendamentoPorId");
+		Paciente paciente = detalhaPaciente(idPaciente);
+		Agendamento agendamento = detalhaAgendamento(idAgendamento);
+		agendamento.pertencePaciente(paciente);
+		agendamento.cancelaAgendamento();
+		agendamentoRepository.salvaAgendamento(agendamento);
+		log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamentoPorId");
 	}
 
 }

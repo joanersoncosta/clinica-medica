@@ -66,4 +66,11 @@ public class AgendamentoRestController implements AgendamentoAPI {
 		return agendamentos;
 	}
 
+	@Override
+	public void cancelaAgendamentoPorId(UUID idAgendamento, UUID IdPaciente) {
+		log.info("[inicia] AgendamentoRestController - cancelaAgendamentoPorId");
+		agendamentoService.cancelaAgendamentoPorId(idAgendamento, IdPaciente);
+		log.info("[finaliza] AgendamentoRestController - cancelaAgendamentoPorId");
+	}
+
 }

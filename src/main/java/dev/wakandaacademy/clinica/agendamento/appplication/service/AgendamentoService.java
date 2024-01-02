@@ -23,4 +23,5 @@ public interface AgendamentoService {
 	Agendamento detalhaAgendamento(UUID idAgendamento);
 	List<AgendamentoMedicoListResponse> buscaAgendamentosMedicoPorData(AgendamentoDataRequest agendamento,
 			UUID idMedico);
+	void cancelaAgendamentoPorId(UUID idAgendamento, UUID idPaciente);
 }

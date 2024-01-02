@@ -60,14 +60,6 @@ public class Agendamento {
 		validaDataAgendamento(consultas.getDataConsulta());
 	}
 
-	public void verificaAgendamentoMedico(List<AgendamentoMedico> agendamentosMedico) {
-		for (AgendamentoMedico agenda : agendamentosMedico) {
-			if (agenda.getDataConsulta().equals(dataConsulta) && agenda.getHorario().equals(horario)) {
-				throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
-			}
-		}
-	}
-
 	public void pertencePaciente(Paciente paciente) {
 		if (!idPaciente.equals(paciente.getIdPaciente())) {
 			throw APIException.build(HttpStatus.UNAUTHORIZED, "Paciente não autorizado!");
@@ -84,6 +76,10 @@ public class Agendamento {
 		if(dataConsulta.isBefore(dataMomentoCriacao.toLocalDate())) {
 			throw APIException.build(HttpStatus.BAD_REQUEST, "A data selecionada está no passado. Por favor, escolha uma data futura");
 		}
+	}
+
+	public void cancelaAgendamento() {
+		this.statusAgendamento = StatusAgendamento.CANCELADO;
 	}
 
 }
