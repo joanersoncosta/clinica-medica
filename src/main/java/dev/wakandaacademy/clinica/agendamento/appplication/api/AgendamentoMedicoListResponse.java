@@ -10,28 +10,26 @@ import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
 import lombok.Value;
 
 @Value
-public class AgendamentoPacienteListResponse {
-	private UUID idMedico;
-	private String medico;
-	private String especialidade;
+public class AgendamentoMedicoListResponse {
+	private UUID idPaciente;
+	private String paciente;
 	private LocalDate dataConsulta;
 	private LocalTime horario;
-
-	public AgendamentoPacienteListResponse(Agendamento consulta) {
-		this.idMedico = consulta.getIdMedico();
-		this.medico = consulta.getMedico();
-		this.especialidade = consulta.getEspecialidade();
-		this.dataConsulta = consulta.getDataConsulta();
-		this.horario = consulta.getHorario();
+	
+	public AgendamentoMedicoListResponse(Agendamento agendamento) {
+		this.idPaciente = agendamento.getIdPaciente();
+		this.paciente = agendamento.getPaciente();
+		this.dataConsulta = agendamento.getDataConsulta();
+		this.horario = agendamento.getHorario();
 	}
-
-	public static List<AgendamentoPacienteListResponse> converte(List<Agendamento> agendamentos,
+	
+	public static List<AgendamentoMedicoListResponse> converte(List<Agendamento> agendamentos,
 			AgendamentoDataRequest dataConsulta) {
 		return agendamentos.stream()
 				.filter(n -> n.getDataConsulta().equals(LocalDate.parse(dataConsulta.getDataConsulta())))
-				.map(AgendamentoPacienteListResponse::new)
+				.map(AgendamentoMedicoListResponse::new)
 				.sorted((p1, p2) -> p1.getHorario().compareTo(p2.getHorario()))
 				.collect(Collectors.toList());
 	}
-	
+
 }

@@ -24,6 +24,10 @@ public interface AgendamentoAPI {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	AgendamentoIdResponse postAgendamento(@RequestBody @Valid AgendamentoRequest agendamento);
 
+	@DeleteMapping(path = "/{idAgendamento}/paciente/{IdPaciente}")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	void deletaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
+
 	@GetMapping(path = "/paciente/{IdPaciente}")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<AgendamentoPaciente> buscaAgendamentosIdPaciente(@PathVariable(name = "IdPaciente") UUID IdPaciente);
@@ -32,12 +36,12 @@ public interface AgendamentoAPI {
 	@ResponseStatus(code = HttpStatus.OK)
 	List<AgendamentoMedico> buscaAgendamentosIdMedico(@PathVariable(name = "IdMedico") UUID IdMedico);
 
-	@GetMapping(path = "/paciente/{IdPaciente}/data")
+	@GetMapping(path = "/paciente/{IdPaciente}/data-consulta")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<AgendamentoPacienteListResponse> buscaAgendamentosPacientePorData(@RequestBody @Valid AgendamentoDataRequest agendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
 
-	@DeleteMapping(path = "/{idAgendamento}/paciente/{IdPaciente}")
-	@ResponseStatus(code = HttpStatus.NO_CONTENT)
-	void deletaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
+	@GetMapping(path = "/medico/{IdMedico}/data-consulta")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<AgendamentoMedicoListResponse> buscaAgendamentosMedicoPorData(@RequestBody @Valid AgendamentoDataRequest agendamento, @PathVariable(name = "IdMedico") UUID IdMedico);
 
 }

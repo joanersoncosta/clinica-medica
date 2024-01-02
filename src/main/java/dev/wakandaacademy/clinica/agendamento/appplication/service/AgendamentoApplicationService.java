@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoDataRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedicoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
@@ -47,7 +48,7 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
 //		HorarioPadrao horario = horarioService.detalhaHorario(LocalTime.parse(agendamentoRequest.getHorario()));
-		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getHorario());
+		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
 
 		medico.pertenceEspecialidade(especialidade);
 		
@@ -57,6 +58,16 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
 		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
+	}
+	
+	@Override
+	public void deletaAgendamentoPorId(UUID idAgendamento, UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - deletaAgendamentoPorId");
+		Paciente paciente = detalhaPaciente(idPaciente);
+		Agendamento agendamento = detalhaAgendamento(idAgendamento);
+		agendamento.pertencePaciente(paciente);
+		agendamentoRepository.deletaAgendamento(agendamento);
+		log.info("[finaliza] AgendamentoApplicationService - deletaAgendamentoPorId");
 	}
 	
 	@Override
@@ -102,21 +113,25 @@ public class AgendamentoApplicationService implements AgendamentoService {
 	public List<AgendamentoPacienteListResponse> buscaAgendamentosPacientePorData(AgendamentoDataRequest agendamentoDataRequest,
 			UUID idPaciente) {
 		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentosPacientePorData");
+		pacienteRepository.buscaPacientePorId(idPaciente)
+			.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado"));
 		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdPaciente(idPaciente);
 		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosPacientePorData");
 		return AgendamentoPacienteListResponse.converte(agendamentos, agendamentoDataRequest);
 	}
-
-	@Override
-	public void deletaAgendamentoPorId(UUID idAgendamento, UUID idPaciente) {
-		log.info("[inicia] AgendamentoApplicationService - deletaAgendamentoPorId");
-		Paciente paciente = detalhaPaciente(idPaciente);
-		Agendamento agendamento = detalhaAgendamento(idAgendamento);
-		agendamento.pertencePaciente(paciente);
-		agendamentoRepository.deletaAgendamento(agendamento);
-		log.info("[finaliza] AgendamentoApplicationService - deletaAgendamentoPorId");
-	}
 	
+	@Override
+	public List<AgendamentoMedicoListResponse> buscaAgendamentosMedicoPorData(AgendamentoDataRequest agendamento,
+			UUID idMedico) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentosMedicoPorData");
+		medicoRepository.buscaMeditoPorId(idMedico)
+			.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Médico não encontrado"));
+
+		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdMedico(idMedico);
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosMedicoPorData");
+		return AgendamentoMedicoListResponse.converte(agendamentos, agendamento);
+	}
+
 	private Paciente detalhaPaciente(UUID idPaciente) {
 		log.info("[inicia] AgendamentoApplicationService - detalhaPaciente");
 		Paciente paciente = pacienteRepository.buscaPacientePorId(idPaciente)
@@ -135,4 +150,5 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		log.info("[finaliza] AgendamentoApplicationService - detalhaAgendamento");
 		return agendamento;
 	}
+
 }

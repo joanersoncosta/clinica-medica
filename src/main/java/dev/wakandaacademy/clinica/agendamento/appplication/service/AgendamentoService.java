@@ -6,6 +6,7 @@ import java.util.UUID;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoDataRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedicoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
@@ -20,4 +21,6 @@ public interface AgendamentoService {
 			UUID idPaciente);
 	void deletaAgendamentoPorId(UUID idAgendamento, UUID idPaciente);
 	Agendamento detalhaAgendamento(UUID idAgendamento);
+	List<AgendamentoMedicoListResponse> buscaAgendamentosMedicoPorData(AgendamentoDataRequest agendamento,
+			UUID idMedico);
 }

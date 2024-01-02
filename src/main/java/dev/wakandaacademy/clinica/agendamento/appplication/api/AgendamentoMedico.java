@@ -26,6 +26,7 @@ public class AgendamentoMedico {
 	public static List<AgendamentoMedico> converte(List<Agendamento> agendamentos) {
 		return agendamentos.stream()
 				.map(AgendamentoMedico::new)
+				.sorted((p1, p2) -> p1.getDataConsulta().compareTo(p2.getDataConsulta()))
 				.collect(Collectors.toList());
 	}
 }

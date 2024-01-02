@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
-
-import dev.wakandaacademy.clinica.handler.APIException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +34,8 @@ public class AgendamentoPaciente {
 	public static List<AgendamentoPaciente> converte(List<Agendamento> agendamentos) {
 		return agendamentos.stream()
 				.map(AgendamentoPaciente::new)
+				.sorted((p1, p2) -> p1.getDataConsulta().compareTo(p2.getDataConsulta()))
+				.sorted((p1, p2) -> p1.getHorario().compareTo(p2.getHorario()))
 				.collect(Collectors.toList());
 	}
 	

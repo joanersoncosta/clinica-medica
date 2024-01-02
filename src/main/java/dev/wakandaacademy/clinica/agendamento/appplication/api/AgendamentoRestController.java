@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.service.AgendamentoService;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +23,13 @@ public class AgendamentoRestController implements AgendamentoAPI {
 		AgendamentoIdResponse idAgendamento = agendamentoService.criaAgendamento(agendamento);
 		log.info("[finaliza] AgendamentoRestController - postAgendamento");
 		return idAgendamento;
+	}
+	
+	@Override
+	public void deletaAgendamentoPorId(UUID IdAgendamento, UUID IdPaciente) {
+		log.info("[inicia] AgendamentoRestController - deletaAgendamentoPorId");
+		agendamentoService.deletaAgendamentoPorId(IdAgendamento, IdPaciente);
+		log.info("[finaliza] AgendamentoRestController - deletaAgendamentoPorId");
 	}
 
 	@Override
@@ -50,10 +58,12 @@ public class AgendamentoRestController implements AgendamentoAPI {
 	}
 
 	@Override
-	public void deletaAgendamentoPorId(UUID IdAgendamento, UUID IdPaciente) {
-		log.info("[inicia] AgendamentoRestController - deletaAgendamentoPorId");
-		agendamentoService.deletaAgendamentoPorId(IdAgendamento, IdPaciente);
-		log.info("[finaliza] AgendamentoRestController - deletaAgendamentoPorId");
+	public List<AgendamentoMedicoListResponse> buscaAgendamentosMedicoPorData(AgendamentoDataRequest agendamento,
+			UUID IdMedico) {
+		log.info("[inicia] AgendamentoRestController - buscaAgendamentosMedicoPorData");
+		List<AgendamentoMedicoListResponse> agendamentos = agendamentoService.buscaAgendamentosMedicoPorData(agendamento, IdMedico);
+		log.info("[finaliza] AgendamentoRestController - buscaAgendamentosMedicoPorData");
+		return agendamentos;
 	}
 
 }
