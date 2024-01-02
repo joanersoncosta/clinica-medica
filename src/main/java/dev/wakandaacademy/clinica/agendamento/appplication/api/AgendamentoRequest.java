@@ -14,7 +14,7 @@ public class AgendamentoRequest {
 	@NotNull
 	private UUID idPaciente;
 	@NotNull
-	private String dataConsulta;
-	@NotNull
 	private UUID idHorario;
+	@NotNull
+	private String dataConsulta;
 }

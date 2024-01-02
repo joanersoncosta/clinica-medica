@@ -47,7 +47,6 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
-//		HorarioPadrao horario = horarioService.detalhaHorario(LocalTime.parse(agendamentoRequest.getHorario()));
 		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getIdHorario());
 
 		medico.pertenceEspecialidade(especialidade);

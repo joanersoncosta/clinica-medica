@@ -1,6 +1,7 @@
 package dev.wakandaacademy.clinica.agendamento.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,8 @@ public class Agendamento {
 	private LocalTime horario;
 	@Builder.Default
 	private StatusAgendamento statusAgendamento = StatusAgendamento.CONFIRMADO;
-
+	private LocalDateTime  dataMomentoCriacao;
+	
 	public Agendamento(AgendamentoClienteConsulta consultas) {
 		this.idAgendamento = UUID.randomUUID();
 		this.idPaciente = consultas.getIdPaciente();
@@ -54,6 +56,8 @@ public class Agendamento {
 		this.dataConsulta = consultas.getDataConsulta();
 		this.horario = consultas.getHorario();
 		this.statusAgendamento = StatusAgendamento.CONFIRMADO;
+		this.dataMomentoCriacao = LocalDateTime.now();
+		validaDataAgendamento(consultas.getDataConsulta());
 	}
 
 	public void verificaAgendamentoMedico(List<AgendamentoMedico> agendamentosMedico) {
@@ -64,21 +68,21 @@ public class Agendamento {
 		}
 	}
 
-	public void verificaDataMedico(LocalDate dataAgendamento) {
-		if (!(dataConsulta == dataAgendamento)) {
-			throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
-		}
-	}
-
 	public void pertencePaciente(Paciente paciente) {
 		if (!idPaciente.equals(paciente.getIdPaciente())) {
-			APIException.build(HttpStatus.UNAUTHORIZED, "Paciente não autorizado!");
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Paciente não autorizado!");
 		}
 	}
 
 	public void pertenceMedico(Paciente paciente) {
 		if (!idPaciente.equals(paciente.getIdPaciente())) {
-			APIException.build(HttpStatus.UNAUTHORIZED, "Médico não autorizado!");
+			throw APIException.build(HttpStatus.UNAUTHORIZED, "Médico não autorizado!");
+		}
+	}
+	
+	private void validaDataAgendamento(LocalDate dataConsulta) {
+		if(dataConsulta.isBefore(dataMomentoCriacao.toLocalDate())) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "A data selecionada está no passado. Por favor, escolha uma data futura");
 		}
 	}
 
