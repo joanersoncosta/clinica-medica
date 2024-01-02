@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoDataRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedicoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
@@ -64,6 +65,14 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado"));
 		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentoPorId");
 		return agendamento;
+	}
+	
+	@Override
+	public List<AgendamentoListResponse> buscaAgendamentos() {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentos");
+		List<Agendamento > agendamentos = agendamentoRepository.buscaAgendamentos();
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentos");
+		return AgendamentoListResponse.converte(agendamentos);
 	}
 	
 	@Override

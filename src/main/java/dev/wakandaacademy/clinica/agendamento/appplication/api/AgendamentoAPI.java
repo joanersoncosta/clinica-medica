@@ -25,13 +25,18 @@ public interface AgendamentoAPI {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	AgendamentoIdResponse postAgendamento(@RequestBody @Valid AgendamentoRequest agendamento);
 
+	@GetMapping(path = "/idAgendamento")
+	@ResponseStatus(code = HttpStatus.OK)
+	AgendamentoResponse buscaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento);
+	
+	@GetMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	List<AgendamentoListResponse> buscaAgendamentos();
+	
 	@DeleteMapping(path = "/{idAgendamento}/paciente/{IdPaciente}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void deletaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
 
-	@GetMapping(path = "/idAgendamento")
-	@ResponseStatus(code = HttpStatus.OK)
-	AgendamentoResponse buscaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento);
 	
 	@GetMapping(path = "/paciente/{IdPaciente}")
 	@ResponseStatus(code = HttpStatus.OK)
