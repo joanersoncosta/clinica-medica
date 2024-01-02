@@ -40,4 +40,20 @@ public class AgendamentoRestController implements AgendamentoAPI {
 		return agendamentos;
 	}
 
+	@Override
+	public List<AgendamentoPacienteListResponse> buscaAgendamentosPacientePorData(AgendamentoDataRequest agendamento,
+			UUID IdPaciente) {		
+		log.info("[inicia] AgendamentoRestController - buscaAgendamentosPacientePorData");
+		List<AgendamentoPacienteListResponse> agendamentos = agendamentoService.buscaAgendamentosPacientePorData(agendamento, IdPaciente);
+		log.info("[finaliza] AgendamentoRestController - buscaAgendamentosPacientePorData");
+		return agendamentos;
+	}
+
+	@Override
+	public void deletaAgendamentoPorId(UUID IdAgendamento, UUID IdPaciente) {
+		log.info("[inicia] AgendamentoRestController - deletaAgendamentoPorId");
+		agendamentoService.deletaAgendamentoPorId(IdAgendamento, IdPaciente);
+		log.info("[finaliza] AgendamentoRestController - deletaAgendamentoPorId");
+	}
+
 }

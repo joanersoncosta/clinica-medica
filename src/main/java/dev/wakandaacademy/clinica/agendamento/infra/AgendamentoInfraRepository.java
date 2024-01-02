@@ -50,4 +50,18 @@ public class AgendamentoInfraRepository implements AgendamentoRepository {
 
 	}
 
+	@Override
+	public Optional<Agendamento> buscaAgendamentoPorId(UUID idAgendamento) {
+		log.info("[inicia] AgendamentoInfraRepository - buscaAgendamentoPorId");
+		Optional<Agendamento> agendamento = agendamentoSpringDataMongoRepository.findById(idAgendamento);
+		log.info("[finaliza] AgendamentoInfraRepository - buscaAgendamentoPorId");
+		return agendamento;
+	}
+
+	@Override
+	public void deletaAgendamento(Agendamento agendamento) {
+		log.info("[inicia] AgendamentoInfraRepository - deletaAgendamento");
+		agendamentoSpringDataMongoRepository.delete(agendamento);
+		log.info("[finaliza] AgendamentoInfraRepository - deletaAgendamento");
+	}
 }

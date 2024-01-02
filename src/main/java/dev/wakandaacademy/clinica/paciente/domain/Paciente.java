@@ -10,8 +10,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import dev.wakandaacademy.clinica.paciente.application.api.PacienteNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
 import jakarta.validation.constraints.Email;
@@ -55,7 +57,7 @@ public class Paciente {
 		this.dataNascimento = pacienteRequest.getDataNascimento();
 		this.momentoDoDacastro = LocalDateTime.now();
 	}
-	
+
 	public String setSexo(Sexo sexo) {
 		if (sexo != null) {
 			this.sexo = sexo.getSexo();
@@ -63,15 +65,14 @@ public class Paciente {
 		return this.sexo;
 	}
 
-	public void verificaAgendamentoPaciente(List<AgendamentoPaciente> agendamentosPaciente, String dataConsulta) {
-        LocalDate data = LocalDate.parse(dataConsulta);
-		int diaDoMes = data.getDayOfMonth();
-        int numeroDoMes = data.getMonthValue();
-        for(AgendamentoPaciente agenda: agendamentosPaciente) {
-        	if(agenda.getDataConsulta().getDayOfMonth() == diaDoMes && agenda.getDataConsulta().getMonthValue() == numeroDoMes) {
-        		throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já possui consulta para esse hórario!!");
-        	}
-        }
+	public void verificaAgendamentoPaciente(List<AgendamentoPaciente> agendamentosPaciente, HorarioPadrao horario,
+			String dataConsulta) {
+		LocalDate data = LocalDate.parse(dataConsulta);
+		for (AgendamentoPaciente agenda : agendamentosPaciente) {
+			if (agenda.getDataConsulta().equals(data) && agenda.getHorario().equals(horario.getHorario())) {
+				throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já possui consulta para esse hórario!");
+			}
+		}
 	}
 
 }

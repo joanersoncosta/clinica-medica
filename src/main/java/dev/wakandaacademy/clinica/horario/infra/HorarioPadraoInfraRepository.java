@@ -49,10 +49,10 @@ public class HorarioPadraoInfraRepository implements HorarioPadraoRepository {
 	}
 
 	@Override
-	public Optional<HorarioPadrao> detalhaHorarioPorHorario(LocalTime horario) {
-		log.info("[inicia] HorarioPadraoInfraRepository - buscaHorarioPorId");
+	public Optional<HorarioPadrao> detalhaHorario(LocalTime horario) {
+		log.info("[inicia] HorarioPadraoInfraRepository - detalhaHorario");
 		Optional<HorarioPadrao> horarioPadrao = horarioPadraoSpringDataMongoRepository.findByHorario(horario);
-		log.info("[finaliza] HorarioPadraoInfraRepository - buscaHorarioPorId");
+		log.info("[finaliza] HorarioPadraoInfraRepository - detalhaHorario");
 		return horarioPadrao;
 	}
 }

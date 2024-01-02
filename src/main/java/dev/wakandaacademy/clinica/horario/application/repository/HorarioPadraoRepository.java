@@ -12,5 +12,5 @@ public interface HorarioPadraoRepository {
 	List<HorarioPadrao> getHorarioPadrao();
 	Optional<HorarioPadrao> buscaHorarioPorId(UUID idHorario);
 	List<HorarioPadrao> buscaHorarios();
-	Optional<HorarioPadrao> detalhaHorarioPorHorario(LocalTime horario);
+	Optional<HorarioPadrao> detalhaHorario(LocalTime horario);
 }

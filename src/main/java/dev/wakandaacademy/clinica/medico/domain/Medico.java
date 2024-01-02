@@ -12,9 +12,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
+import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.horario.application.api.HorarioPadraoListResponse;
+import dev.wakandaacademy.clinica.horario.domain.HorarioPadrao;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoAlteracaoRequest;
 import dev.wakandaacademy.clinica.medico.application.api.MedicoNovoRequest;
 import dev.wakandaacademy.clinica.paciente.domain.enuns.Sexo;
@@ -103,15 +105,13 @@ public class Medico {
 		return this.horariosDisponiveis;
 	}
 
-	public void verificaAgendamentoMedico(List<AgendamentoMedico> agendamentosMedico, String dataConsulta) {
-	       LocalDate data = LocalDate.parse(dataConsulta);
-			int diaDoMes = data.getDayOfMonth();
-	        int numeroDoMes = data.getMonthValue();
-	        for(AgendamentoMedico agenda: agendamentosMedico) {
-	        	if(agenda.getDataConsulta().getDayOfMonth() == diaDoMes && agenda.getDataConsulta().getMonthValue() == numeroDoMes) {
-	        		throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
-	        	}
-	        }		
-	}
+	public void verificaAgendamentoMedico(List<AgendamentoMedico> agendamentosMedico, HorarioPadrao horario, String dataConsulta) {
+			LocalDate data = LocalDate.parse(dataConsulta);
+			for (AgendamentoMedico agenda : agendamentosMedico) {
+				if (agenda.getDataConsulta().equals(data) && agenda.getHorario().equals(horario.getHorario())) {
+					throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
+				}
+			}
+		}
 
 }

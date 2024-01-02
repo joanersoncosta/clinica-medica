@@ -11,5 +11,5 @@ public interface HorarioPadraoService {
 	void criahorarioPadrao();
 	List<HorarioPadraoListResponse> getHorarioPadrao();
 	HorarioPadrao detalhaHorarioPorId(UUID idHorario);
-	HorarioPadrao detalhaHorarioPorHorario(LocalTime horario);
+	HorarioPadrao detalhaHorario(LocalTime horario);
 }

@@ -1,14 +1,15 @@
 package dev.wakandaacademy.clinica.agendamento.appplication.service;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoDataRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
@@ -45,12 +46,14 @@ public class AgendamentoApplicationService implements AgendamentoService {
 				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
 		Especialidade especialidade = especialidadeService
 				.detalhaEspecialidadePorId(agendamentoRequest.getIdEspecialidade());
-		HorarioPadrao horario = horarioService.detalhaHorarioPorHorario(LocalTime.parse(agendamentoRequest.getHorario()));
-		
+//		HorarioPadrao horario = horarioService.detalhaHorario(LocalTime.parse(agendamentoRequest.getHorario()));
+		HorarioPadrao horario = horarioService.detalhaHorarioPorId(agendamentoRequest.getHorario());
+
 		medico.pertenceEspecialidade(especialidade);
 		
-		verificaAgendamentoPaciente(paciente, agendamentoRequest, agendamentoRequest.getIdPaciente());
-		verificaAgendamentoMedico(medico, agendamentoRequest, agendamentoRequest.getIdMedico());
+		verificaAgendamentoPaciente(paciente, horario, agendamentoRequest, agendamentoRequest.getIdPaciente());
+		verificaAgendamentoMedico(medico, horario, agendamentoRequest, agendamentoRequest.getIdMedico());
+		
 		Agendamento	agendamento = agendamentoRepository.salvaAgendamento(new Agendamento(new AgendamentoClienteConsulta(agendamentoRequest, paciente, medico, especialidade, horario)));
 		log.info("[finaliza] AgendamentoApplicationService - criaAgendamento");
 		return AgendamentoIdResponse.builder().idAgendamento(agendamento.getIdAgendamento()).build();
@@ -81,18 +84,55 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		return AgendamentoMedico.converte(agendamentos);	
 	}
 	
-	private void verificaAgendamentoPaciente(Paciente paciente, AgendamentoRequest agendamento, UUID idPaciente) {
+	private void verificaAgendamentoPaciente(Paciente paciente, HorarioPadrao horario, AgendamentoRequest agendamento, UUID idPaciente) {
 		log.info("[inicia] AgendamentoApplicationService - verificaAgendamentoPaciente");
 		List<AgendamentoPaciente> buscaAgendamentosPaciente = buscaAgendamentosIdPaciente(idPaciente);
-		paciente.verificaAgendamentoPaciente(buscaAgendamentosPaciente, agendamento.getDataConsulta());
+		paciente.verificaAgendamentoPaciente(buscaAgendamentosPaciente, horario, agendamento.getDataConsulta());
 		log.info("[finaliza] AgendamentoApplicationService - verificaAgendamentoPaciente");
 	}
 	
-	private void verificaAgendamentoMedico(Medico medico, AgendamentoRequest agendamento, UUID idMedico) {
+	private void verificaAgendamentoMedico(Medico medico, HorarioPadrao horario, AgendamentoRequest agendamento, UUID idMedico) {
 		log.info("[inicia] AgendamentoApplicationService - verificaAgendamentoMedico");
 		List<AgendamentoMedico> buscaAgendamentosMedico = buscaAgendamentosIdMedico(idMedico);
-		medico.verificaAgendamentoMedico(buscaAgendamentosMedico, agendamento.getDataConsulta());
+		medico.verificaAgendamentoMedico(buscaAgendamentosMedico, horario, agendamento.getDataConsulta());
 		log.info("[finaliza] AgendamentoApplicationService - verificaAgendamentoMedico");
 	}
 
+	@Override
+	public List<AgendamentoPacienteListResponse> buscaAgendamentosPacientePorData(AgendamentoDataRequest agendamentoDataRequest,
+			UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - buscaAgendamentosPacientePorData");
+		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentosIdPaciente(idPaciente);
+		log.info("[finaliza] AgendamentoApplicationService - buscaAgendamentosPacientePorData");
+		return AgendamentoPacienteListResponse.converte(agendamentos, agendamentoDataRequest);
+	}
+
+	@Override
+	public void deletaAgendamentoPorId(UUID idAgendamento, UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - deletaAgendamentoPorId");
+		Paciente paciente = detalhaPaciente(idPaciente);
+		Agendamento agendamento = detalhaAgendamento(idAgendamento);
+		agendamento.pertencePaciente(paciente);
+		agendamentoRepository.deletaAgendamento(agendamento);
+		log.info("[finaliza] AgendamentoApplicationService - deletaAgendamentoPorId");
+	}
+	
+	private Paciente detalhaPaciente(UUID idPaciente) {
+		log.info("[inicia] AgendamentoApplicationService - detalhaPaciente");
+		Paciente paciente = pacienteRepository.buscaPacientePorId(idPaciente)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Paciente não encontrado!"));
+		agendamentoRepository.buscaAgendamentosIdPaciente(idPaciente);
+		log.info("[finaliza] AgendamentoApplicationService - detalhaPaciente");
+		return paciente;
+
+	}
+
+	@Override
+	public Agendamento detalhaAgendamento(UUID idAgendamento) {
+		log.info("[inicia] AgendamentoApplicationService - detalhaAgendamento");
+		Agendamento agendamento = agendamentoRepository.buscaAgendamentoPorId(idAgendamento)
+				.orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Agendamento não encontrado"));
+		log.info("[finaliza] AgendamentoApplicationService - detalhaAgendamento");
+		return agendamento;
+	}
 }

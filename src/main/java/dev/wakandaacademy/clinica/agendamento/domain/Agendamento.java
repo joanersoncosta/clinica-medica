@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import dev.wakandaacademy.clinica.handler.APIException;
+import dev.wakandaacademy.clinica.paciente.domain.Paciente;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,13 +57,29 @@ public class Agendamento {
 	}
 
 	public void verificaAgendamentoMedico(List<AgendamentoMedico> agendamentosMedico) {
-	       int diaDoMes = dataConsulta.getDayOfMonth();
-	        int numeroDoMes = dataConsulta.getMonthValue();
-	        for(AgendamentoMedico agenda: agendamentosMedico) {
-	        	if(agenda.getDataConsulta().getDayOfMonth() == diaDoMes && agenda.getDataConsulta().getMonthValue() == numeroDoMes) {
-	        		throw APIException.build(HttpStatus.BAD_REQUEST, "Paciente já possui consulta para esse hórario!!");
-	        	}
-	        }		
+		for (AgendamentoMedico agenda : agendamentosMedico) {
+			if (agenda.getDataConsulta().equals(dataConsulta) && agenda.getHorario().equals(horario)) {
+				throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
+			}
+		}
+	}
+
+	public void verificaDataMedico(LocalDate dataAgendamento) {
+		if (!(dataConsulta == dataAgendamento)) {
+			throw APIException.build(HttpStatus.BAD_REQUEST, "Médico já possui consulta para esse hórario!!");
+		}
+	}
+
+	public void pertencePaciente(Paciente paciente) {
+		if (!idPaciente.equals(paciente.getIdPaciente())) {
+			APIException.build(HttpStatus.UNAUTHORIZED, "Paciente não autorizado!");
+		}
+	}
+
+	public void pertenceMedico(Paciente paciente) {
+		if (!idPaciente.equals(paciente.getIdPaciente())) {
+			APIException.build(HttpStatus.UNAUTHORIZED, "Médico não autorizado!");
+		}
 	}
 
 }
