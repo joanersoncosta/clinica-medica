@@ -37,7 +37,10 @@ public interface AgendamentoAPI {
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void deletaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
 
-	
+	@PatchMapping(path = "/{idAgendamento}/paciente/{IdPaciente}/reagenda-consulta")
+	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	void reagendaCunsulta(@RequestBody @Valid EditaAgendamentoRequest agendamentorequest, @PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
+
 	@GetMapping(path = "/paciente/{IdPaciente}")
 	@ResponseStatus(code = HttpStatus.OK)
 	List<AgendamentoPaciente> buscaAgendamentosIdPaciente(@PathVariable(name = "IdPaciente") UUID IdPaciente);

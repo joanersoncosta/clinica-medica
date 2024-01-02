@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.EditaAgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.domain.enuns.StatusAgendamento;
 import dev.wakandaacademy.clinica.handler.APIException;
 import dev.wakandaacademy.clinica.paciente.domain.Paciente;
@@ -80,6 +81,11 @@ public class Agendamento {
 
 	public void cancelaAgendamento() {
 		this.statusAgendamento = StatusAgendamento.CANCELADO;
+	}
+
+	public void editaAgendamento(EditaAgendamentoRequest agendamentoRequest, LocalTime horario) {
+		this.dataConsulta = LocalDate.parse(agendamentoRequest.getDataConsulta());
+		this.horario = horario;
 	}
 
 }

@@ -11,7 +11,7 @@ import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoResponse;
-import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.EditaAgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
 
 public interface AgendamentoService {
@@ -19,7 +19,7 @@ public interface AgendamentoService {
 	AgendamentoResponse buscaAgendamentoPorId(UUID idAgendamento);
 	List<AgendamentoListResponse> buscaAgendamentos();
 	void deletaAgendamentoPorId(UUID idAgendamento, UUID idPaciente);
-	Agendamento buscaAgendamentoporIdPaciente(UUID idPaciente);
+	void reagendaCunsulta(EditaAgendamentoRequest agendamentorequest, UUID idAgendamento, UUID idPaciente);
 	List<AgendamentoPaciente> buscaAgendamentosIdPaciente(UUID idPaciente);
 	List<AgendamentoMedico> buscaAgendamentosIdMedico(UUID idMedico);
 	List<AgendamentoPacienteListResponse> buscaAgendamentosPacientePorData(AgendamentoDataRequest agendamento,
