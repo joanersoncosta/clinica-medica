@@ -40,4 +40,8 @@ public interface EspecialidadeAPI {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	void alteraEspecialidadePorId(@PathVariable(value = "idEspecialidade") UUID idEspecialidade, @RequestBody @Valid EspecialidadeAlteracaoRequest especialidadeRequest);
 
+	@GetMapping(value = "/busca-especialidade-nome")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<EspecialidadeListResponse> listaEspecialidadePorNome(@RequestBody @Valid EspecialidadeTitloRequest especialidadeRequest);
+
 }

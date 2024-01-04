@@ -22,4 +22,11 @@ public class EspecialidadeListResponse {
 	public static List<EspecialidadeListResponse> converte(List<Especialidade> especialidades) {
 		return especialidades.stream().map(EspecialidadeListResponse::new).collect(Collectors.toList());
 	}
+
+	public static List<EspecialidadeListResponse> converte(List<Especialidade> especialidades,
+			EspecialidadeTitloRequest especialidadeRequest) {
+		return especialidades.stream()
+                .filter(n -> n.getTitlo().toLowerCase().contains(especialidadeRequest.getTitlo().toLowerCase()))				.map(EspecialidadeListResponse::new)
+				.collect(Collectors.toList());
+	}
 }
