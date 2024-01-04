@@ -6,6 +6,7 @@ import java.util.UUID;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeTitloRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 
@@ -15,4 +16,5 @@ public interface EspecialidadeService {
 	EspecialidadeResponse buscaEspecialidadePorId(UUID idEspecialidade);
 	void deletaEspecialidadePorId(UUID idEspecialidade);
 	void alteraEspecialidadePorId(UUID idEspecialidade, EspecialidadeAlteracaoRequest especialidadeRequest);
+	List<EspecialidadeListResponse> listaEspecialidadePorNome(EspecialidadeTitloRequest especialidadeRequest);
 }

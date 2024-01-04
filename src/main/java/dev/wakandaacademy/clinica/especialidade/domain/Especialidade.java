@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class Especialidade {
 
 	@Id
 	private UUID idEspecialidade;
+	@NotBlank
 	@Indexed(unique = true)
 	private String titlo;
 	private String descricao;

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeAlteracaoRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeIdResponse;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeListResponse;
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeTitloRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeRequest;
 import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeResponse;
 import dev.wakandaacademy.clinica.especialidade.application.repository.EspecialidadeRepository;
@@ -68,5 +69,13 @@ public class EspecialidadeApplicationService implements EspecialidadeService {
 		especialidadeRepository.salvaEspecialidade(especialidade);
 		log.info("[finaliza] EspecialidadeApplicationService - alteraEspecialidadePorId");
 		
+	}
+
+	@Override
+	public List<EspecialidadeListResponse> listaEspecialidadePorNome(EspecialidadeTitloRequest especialidadeRequest) {
+		log.info("[inicia] EspecialidadeApplicationService - listaEspecialidadePorNome");
+		List<Especialidade> especialidades = especialidadeRepository.listaEspecialidade();
+		log.info("[finaliza] EspecialidadeApplicationService - listaEspecialidadePorNome");
+		return EspecialidadeListResponse.converte(especialidades, especialidadeRequest);
 	}
 }

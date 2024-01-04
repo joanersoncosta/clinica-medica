@@ -53,4 +53,13 @@ public class EspecialidadeRestController implements EspecialidadeAPI {
 		especialidadeService.alteraEspecialidadePorId(idEspecialidade, especialidadeRequest);
 		log.info("[finaliza] EspecialidadeRestController - alteraEspecialidadePorId");
 	}
+
+	@Override
+	public List<EspecialidadeListResponse> listaEspecialidadePorNome(EspecialidadeTitloRequest especialidadeRequest) {
+		log.info("[inicia] EspecialidadeRestController - listaEspecialidadePorNome");
+		List<EspecialidadeListResponse> especialidadeListResponse = especialidadeService.listaEspecialidadePorNome(especialidadeRequest);
+		log.info("[finaliza] EspecialidadeRestController - listaEspecialidadePorNome");
+		return especialidadeListResponse;
+	}
+
 }

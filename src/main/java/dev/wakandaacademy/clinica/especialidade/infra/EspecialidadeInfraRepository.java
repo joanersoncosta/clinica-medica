@@ -3,11 +3,13 @@ package dev.wakandaacademy.clinica.especialidade.infra;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeTitloRequest;
 import dev.wakandaacademy.clinica.especialidade.application.repository.EspecialidadeRepository;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
