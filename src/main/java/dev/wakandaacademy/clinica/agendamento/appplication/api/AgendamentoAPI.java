@@ -61,4 +61,8 @@ public interface AgendamentoAPI {
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	void cancelaAgendamentoPorId(@PathVariable(name = "idAgendamento") UUID idAgendamento, @PathVariable(name = "IdPaciente") UUID IdPaciente);
 
+	@GetMapping(value = "/busca-paciente")
+	@ResponseStatus(code = HttpStatus.OK)
+	List<AgendamentoNomePacienteListResponse> listaAgendamentoPorNomePaciente(@RequestBody @Valid NomePacienteRequest nomePaciente);
+
 }

@@ -11,14 +11,17 @@ import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoIdResp
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedico;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoMedicoListResponse;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoNomePacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoPacienteListResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.AgendamentoResponse;
 import dev.wakandaacademy.clinica.agendamento.appplication.api.EditaAgendamentoRequest;
+import dev.wakandaacademy.clinica.agendamento.appplication.api.NomePacienteRequest;
 import dev.wakandaacademy.clinica.agendamento.appplication.repository.AgendamentoRepository;
 import dev.wakandaacademy.clinica.agendamento.domain.Agendamento;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoClienteConsulta;
 import dev.wakandaacademy.clinica.agendamento.domain.AgendamentoPaciente;
+import dev.wakandaacademy.clinica.especialidade.application.api.EspecialidadeTitloRequest;
 import dev.wakandaacademy.clinica.especialidade.application.service.EspecialidadeService;
 import dev.wakandaacademy.clinica.especialidade.domain.Especialidade;
 import dev.wakandaacademy.clinica.handler.APIException;
@@ -187,6 +190,14 @@ public class AgendamentoApplicationService implements AgendamentoService {
 		agendamento.cancelaAgendamento();
 		agendamentoRepository.salvaAgendamento(agendamento);
 		log.info("[finaliza] AgendamentoApplicationService - cancelaAgendamentoPorId");
+	}
+
+	@Override
+	public List<AgendamentoNomePacienteListResponse> listaAgendamentoPorNomePaciente(NomePacienteRequest nomePaciente) {
+		log.info("[inicia] AgendamentoApplicationService - listaAgendamentoPorNomePaciente");
+		List<Agendamento> agendamentos = agendamentoRepository.buscaAgendamentos();
+		log.info("[finaliza] AgendamentoApplicationService - listaAgendamentoPorNomePaciente");
+		return AgendamentoNomePacienteListResponse.converte(agendamentos, nomePaciente);
 	}
 
 }
